@@ -65,10 +65,13 @@ stages:
         scannerMode: 'MSBuild'
         projectKey: '2002-feb24-net_ExpenseTracker-project2'
         projectName: 'ExpenseTracker'
-        extraProperties: sonar.exclusions=**/lib/**
+        extraProperties: |
+          sonar.exclusions=**/lib/**
+          sonar.cs.opencover.reportsPaths=$(Common.TestResultsDirectory)/*/coverage.opencover.xml
       displayName: sonarcloud analysis prepare
 
     - task: UseDotNet@2
+      enabled: false
       inputs:
         packageType: sdk
         version: $(sdkVersion)
@@ -80,16 +83,12 @@ stages:
 
     - script: dotnet test $(solutionPath)
         --configuration $(buildConfiguration)
-        --collect "XPlat Code Coverage"
         --logger trx
         --no-build
         --results-directory $(Common.TestResultsDirectory)
+        --settings coverlet.runsettings
       continueOnError: true
       displayName: dotnet test
-    - task: DotNetCoreInstaller@1
-      displayName: 'Use .NET Core SDK 3.1.3 For Sonar Cloud'
-      inputs:
-        version: '2.0.0'
 
     - task: SonarCloudAnalyze@1
       displayName: sonarcloud analysis run
@@ -117,10 +116,7 @@ stages:
   condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
   dependsOn: build
   
-  variables:
-    sdkVersion: 3.1.x
-    solutionPath: .
-    buildConfiguration: Release
+
 
 
   jobs:

@@ -43,7 +43,7 @@ namespace ExpenseService.ServiceeAccess.Repository
             // instead, build a HttpRequestMessage ahead of time, and send it with SendAsync
 
             string content = JsonSerializer.Serialize(user);
-            var request = new HttpRequestMessage(HttpMethod.Post, "api/notes")
+            var request = new HttpRequestMessage(HttpMethod.Post, "api/users")
             {
                 Content = new StringContent(content, Encoding.UTF8, MediaTypeNames.Application.Json)
             };
@@ -53,11 +53,25 @@ namespace ExpenseService.ServiceeAccess.Repository
             response.EnsureSuccessStatusCode();
         }
 
-        public Task DeleteUseer(Users users)
+        //Delete user
+        public async Task DeleteUseer(Users user)
         {
-            throw new NotImplementedException();
+            string content = JsonSerializer.Serialize(user);
+            var request = new HttpRequestMessage(HttpMethod.Post, "api/users")
+            {
+                Content = new StringContent(content, Encoding.UTF8, MediaTypeNames.Application.Json),
+                //HttpMethod to delete
+                Method = HttpMethod.Delete
+
+                //Add possible URI
+            };
+
+            HttpResponseMessage response = await _httpClient.SendAsync(request);
+
+            response.EnsureSuccessStatusCode();
         }
 
+        //Get all users
         public async Task<IEnumerable<Users>> GetUsersASync()
         {
             // this line would throw if we can't connect or we can't get the response headers

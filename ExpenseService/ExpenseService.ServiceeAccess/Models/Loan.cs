@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace ExpenseServiceAPI.Models
+namespace ExpenseService.ServiceeAccess.Models
 {
     public partial class Loan
     {

@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.Extensions.Configuration;
 
-namespace ExpenseServiceAPI.Models
+namespace ExpenseService.ServiceeAccess.Models
 {
     public partial class RevatureDatabaseContext : DbContext
     {

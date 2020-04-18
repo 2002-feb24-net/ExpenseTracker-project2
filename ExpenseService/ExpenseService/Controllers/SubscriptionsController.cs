@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using ExpenseServiceAPI.Models;
+using ExpenseService.ServiceeAccess.Models;
 
 namespace ExpenseServiceAPI.Controllers
 {

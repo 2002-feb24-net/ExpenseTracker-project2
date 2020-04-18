@@ -1,6 +1,6 @@
 ﻿using ExpenseService.ServiceeAccess.Interrfaces;
+using ExpenseService.ServiceeAccess.Models;
 using ExpenseService.ServiceeAccess.Options;
-using ExpenseServiceAPI.Models;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace ExpenseService.ServiceeAccess.Repository
 {
-    class UsersRepository : IUserRepository
+    public class UsersRepository : IUsersRepository
     {
         //Private variables
         private readonly HttpClient _httpClient;

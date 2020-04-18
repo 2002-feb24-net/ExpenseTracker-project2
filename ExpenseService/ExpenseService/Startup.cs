@@ -1,4 +1,7 @@
-using ExpenseServiceAPI.Models;
+using ExpenseService.ServiceeAccess.Interrfaces;
+using ExpenseService.ServiceeAccess.Models;
+using ExpenseService.ServiceeAccess.Options;
+using ExpenseService.ServiceeAccess.Repository;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -22,6 +25,9 @@ namespace ExpenseService
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
+            services.Configure<UsersServiceOptions>(Configuration.GetSection("UsersRepository"));
+            services.AddHttpClient<IUsersRepository, UsersRepository>();
             services.AddControllersWithViews();
             services.AddDbContext<RevatureDatabaseContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("Project2String")));
@@ -54,6 +60,8 @@ namespace ExpenseService
             }
 
             app.UseRouting();
+
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {

@@ -24,7 +24,7 @@ namespace ExpenseService.ServiceeAccess.Repository
         };
 
         //Constructor
-        public UsersRepository(HttpClient httpClient, IOptionsMonitor<UsersServiceOptions> optionsAccessor)
+        public UsersRepository(HttpClient httpClient, IOptionsMonitor<ExpenseServiceOption> optionsAccessor)
         {
             _httpClient = httpClient;
 
@@ -77,7 +77,7 @@ namespace ExpenseService.ServiceeAccess.Repository
             // this line would throw if we can't connect or we can't get the response headers
             //HttpResponseMessage response = await _httpClient.GetAsync("api/notes");
 
-            var request = new HttpRequestMessage(HttpMethod.Get, "api/notes");
+            var request = new HttpRequestMessage(HttpMethod.Get, "api/users");
 
             HttpResponseMessage response = await _httpClient.SendAsync(request);
 

@@ -26,7 +26,8 @@ namespace ExpenseService
         public void ConfigureServices(IServiceCollection services)
         {
 
-            services.Configure<UsersServiceOptions>(Configuration.GetSection("UsersRepository"));
+            services.Configure<ExpenseServiceOption>(Configuration.GetSection("UsersRepository"));
+            services.AddHttpClient<IBillsRepsitory, BillsRepository>();
             services.AddHttpClient<IUsersRepository, UsersRepository>();
             services.AddControllersWithViews();
             services.AddDbContext<RevatureDatabaseContext>(options =>

@@ -15,5 +15,8 @@ namespace ExpenseService.ServiceeAccess.Interrfaces
         //Gets all users while using async
         Task<IEnumerable<Users>> GetUsersASync();
 
+        //Delete user
+        Task DeleteUseer(Users users);
+
     }
 }

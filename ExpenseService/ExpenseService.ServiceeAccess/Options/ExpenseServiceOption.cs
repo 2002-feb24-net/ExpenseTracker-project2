@@ -4,7 +4,7 @@ using System.Text;
 
 namespace ExpenseService.ServiceeAccess.Options
 {
-    public class UsersServiceOptions
+    public class ExpenseServiceOption
     {
         public string ServiceBaseUrl { get; set; }
     }

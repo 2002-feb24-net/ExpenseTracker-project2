@@ -1,4 +1,4 @@
-using ExpenseService.ServiceeAccess.Interrfaces;
+using ExpenseService.Domain.Interrfaces;
 using ExpenseService.ServiceeAccess.Models;
 using ExpenseService.ServiceeAccess.Options;
 using ExpenseService.ServiceeAccess.Repository;

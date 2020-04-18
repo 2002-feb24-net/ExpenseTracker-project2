@@ -1,10 +1,10 @@
-﻿using ExpenseService.ServiceeAccess.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using ExpenseService.Domain.Model;
 
-namespace ExpenseService.ServiceeAccess.Interrfaces
+namespace ExpenseService.Domain.Interrfaces
 {
     //Interface for the Users repository
     public interface IExpensesService

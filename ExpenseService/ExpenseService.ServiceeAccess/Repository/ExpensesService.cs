@@ -1,5 +1,5 @@
-﻿using ExpenseService.ServiceeAccess.Interrfaces;
-using ExpenseService.ServiceeAccess.Models;
+﻿using ExpenseService.Domain.Interrfaces;
+using ExpenseService.Domain.Model;
 using ExpenseService.ServiceeAccess.Options;
 using Microsoft.Extensions.Options;
 using System;
@@ -79,7 +79,7 @@ namespace ExpenseService.ServiceeAccess.Repository
         public async Task AddLoanApplication(LoanApplication application)
         {
             string content = JsonSerializer.Serialize(application);
-            var request = new HttpRequestMessage(HttpMethod.Post, "api/LoanApplication")
+            var request = new HttpRequestMessage(HttpMethod.Post, "api/application")
             {
                 Content = new StringContent(content, Encoding.UTF8, MediaTypeNames.Application.Json)
             };
@@ -110,7 +110,7 @@ namespace ExpenseService.ServiceeAccess.Repository
         public async Task DeleteApplication(LoanApplication application)
         {
             string content = JsonSerializer.Serialize(application);
-            var request = new HttpRequestMessage(HttpMethod.Post, "api/LoanApplication")
+            var request = new HttpRequestMessage(HttpMethod.Post, "api/application")
             {
                 Content = new StringContent(content, Encoding.UTF8, MediaTypeNames.Application.Json),
                 Method = HttpMethod.Delete
@@ -183,7 +183,7 @@ namespace ExpenseService.ServiceeAccess.Repository
 
         public async Task<IEnumerable<LoanApplication>> GetApplications()
         {
-            var request = new HttpRequestMessage(HttpMethod.Get, "api/LoanApplication");
+            var request = new HttpRequestMessage(HttpMethod.Get, "api/application");
 
             HttpResponseMessage response = await _httpClient.SendAsync(request);
             response.EnsureSuccessStatusCode();

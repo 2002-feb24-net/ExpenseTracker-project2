@@ -39,6 +39,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ExpenseService.ServiceeAccess\ExpenseService.ServiceeAccess.csproj" />
+    <ProjectReference Include="..\ExpensesTracker.Domain\ExpenseService.Domain.csproj" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

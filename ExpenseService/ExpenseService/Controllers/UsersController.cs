@@ -16,20 +16,26 @@ namespace ExpenseServiceAPI.Controllers
     {
         private readonly RevatureDatabaseContext _context;
 
-        private readonly IExpensesService _service;
+        private readonly IExpensesRepository _repo;
 
-        public UsersController(RevatureDatabaseContext context, IExpensesService service)
+        public UsersController(IExpensesRepository repo)
         {
-            _context = context;
-            _service = service;
+            _repo = repo;
         }
 
         // GET: api/Users
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Users>>> GetUsers()
+        [ProducesResponseType(typeof(IEnumerable<ApiModel.Users>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> GetAllAsync()
         {
-            return await _context.Users.ToListAsync();
+            IEnumerable<ExpenseService.Domain.Model.Users> users = await _repo.GetUsersAsync();
+            IEnumerable<ApiModel.Users> resource = users.Select(u +)
+            
+
+            return Ok(resource);
         }
+
 
         // GET: api/Users/5
         [HttpGet("{id}")]

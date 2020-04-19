@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ExpenseService.ServiceeAccess.Models;
+using ExpenseService.Domain.Interrfaces;
 
 namespace ExpenseServiceAPI.Controllers
 {
@@ -14,10 +15,12 @@ namespace ExpenseServiceAPI.Controllers
     public class BillsController : ControllerBase
     {
         private readonly RevatureDatabaseContext _context;
+        private readonly IBillsRepository _repo;
 
-        public BillsController(RevatureDatabaseContext context)
+        public BillsController(RevatureDatabaseContext context, IBillsRepository repo)
         {
             _context = context;
+            _repo = repo;
         }
 
         // GET: api/Bills

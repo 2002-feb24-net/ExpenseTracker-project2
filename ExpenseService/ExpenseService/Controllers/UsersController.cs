@@ -11,7 +11,7 @@ using ExpenseService.ServiceeAccess;
 
 namespace ExpenseServiceAPI.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/Users")]
     [ApiController]
     public class UsersController : ControllerBase
     {

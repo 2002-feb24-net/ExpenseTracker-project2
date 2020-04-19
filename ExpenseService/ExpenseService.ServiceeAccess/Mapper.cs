@@ -74,6 +74,9 @@ namespace ExpenseService.ServiceeAccess
                 EstimatedCost = budgets.EstimatedCost,
                 UserId = budgets.UserId,
                 User = MapUsers(budgets.CurrentUser),
+                Loan = budgets.Loan,
+                Subscription = budgets.Subscription
+
                 //Add loan and subscription
             };
         }
@@ -86,7 +89,9 @@ namespace ExpenseService.ServiceeAccess
                 ActualCost = budgets.ActualCost,
                 EstimatedCost = budgets.EstimatedCost,
                 UserId = budgets.UserId,
-                CurrentUser = MapUsers(budgets.User)
+                CurrentUser = MapUsers(budgets.User),
+                Loan = budgets.Loan,
+                Subscription = budgets.Subscription
                 //Add loan and subscription
             };
         }

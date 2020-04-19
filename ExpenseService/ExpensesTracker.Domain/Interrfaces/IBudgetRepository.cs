@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ExpenseService.Domain.Interrfaces
 {
-    interface IBudgetRepository
+    public interface IBudgetRepository
     {
         Task<IEnumerable<Budgets>> GetBudgetsAsync(int? userId = null);
         Task<Budgets> GetBudgetByIdAsync(int id);

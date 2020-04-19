@@ -64,5 +64,31 @@ namespace ExpenseService.ServiceeAccess
                 User = MapUsers(bills.CurrentUser)
             };
         }
+
+        public static Models.Budgets MapBudgets(Budgets budgets)
+        {
+            return new Models.Budgets
+            {
+                Id = budgets.Id,
+                ActualCost = budgets.ActualCost,
+                EstimatedCost = budgets.EstimatedCost,
+                UserId = budgets.UserId,
+                User = MapUsers(budgets.CurrentUser),
+                //Add loan and subscription
+            };
+        }
+        
+        public static Budgets MapBudgets(Models.Budgets budgets)
+        {
+            return new Budgets
+            {
+                Id = budgets.Id,
+                ActualCost = budgets.ActualCost,
+                EstimatedCost = budgets.EstimatedCost,
+                UserId = budgets.UserId,
+                CurrentUser = MapUsers(budgets.User)
+                //Add loan and subscription
+            };
+        }
     }
 }

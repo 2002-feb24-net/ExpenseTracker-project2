@@ -8,6 +8,9 @@ namespace ExpenseService.Domain.Model
     {
         public int Id { get; set; }
         public int UserId { get; set; }
+
+        public Users CurrentUser { get; set; }
+
         public decimal EstimatedCost { get; set; }
         public decimal ActualCost { get; set; }
         public string Subscription { get; set; }

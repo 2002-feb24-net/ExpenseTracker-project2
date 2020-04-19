@@ -6,6 +6,9 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ExpenseService.ServiceeAccess.Models;
+using ExpenseService.Domain.Interrfaces;
+using ExpenseServiceAPI.ApiModel;
+using ExpenseService.ServiceeAccess;
 
 namespace ExpenseServiceAPI.Controllers
 {
@@ -13,54 +16,71 @@ namespace ExpenseServiceAPI.Controllers
     [ApiController]
     public class BudgetsController : ControllerBase
     {
-        private readonly RevatureDatabaseContext _context;
+        private readonly IBudgetRepository _repo;
 
-        public BudgetsController(RevatureDatabaseContext context)
+        public BudgetsController(IBudgetRepository repo)
         {
-            _context = context;
+
+            _repo = repo;
         }
 
-        // GET: api/Budgets
+        // GET: api/Bills
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Budgets>>> GetBudgets()
+        [ProducesResponseType(typeof(IEnumerable<ApiModel.Budgets>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult> GetBudgets()
         {
-            return await _context.Budgets.ToListAsync();
+            var ListOfBills = await _repo.GetBudgetsAsync();
+
+            var resource = ListOfBills.Select(b => new ApiModel.Budgets
+            {
+                Id = b.Id,
+                ActualCost = b.ActualCost,
+                EstimatedCost = b.EstimatedCost,
+                UserId = b.UserId,
+                User = ApiMapper.MapUserApi(b.CurrentUser)
+            });
+
+            return Ok(resource);
         }
 
-        // GET: api/Budgets/5
+        // GET: api/Bills/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Budgets>> GetBudgets(int id)
+        [ProducesResponseType(typeof(ApiModel.Budgets), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+
+        public async Task<ActionResult> GetBudgets(int id)
         {
-            var budgets = await _context.Budgets.FindAsync(id);
+            var budgets = await _repo.GetBudgetByIdAsync(id);
+            var resource = ApiMapper.MapBudgets(budgets);
 
             if (budgets == null)
             {
                 return NotFound();
             }
 
-            return budgets;
+            return Ok(resource);
         }
 
-        // PUT: api/Budgets/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
-        // more details see https://aka.ms/RazorPagesCRUD.
+        // PUT: api/Bills/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutBudgets(int id, Budgets budgets)
+        public async Task<IActionResult> PutBudgets(int id, ExpenseService.ServiceeAccess.Models.Budgets budgets)
         {
             if (id != budgets.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(budgets).State = EntityState.Modified;
+            var newBudgets = Mapper.MapBudgets(budgets);
+            _repo.Changed(newBudgets);
 
             try
             {
-                await _context.SaveChangesAsync();
+                await _repo.SaveAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!BudgetsExists(id))
+                if (!(await BudgetsExists(id)))
                 {
                     return NotFound();
                 }
@@ -73,37 +93,30 @@ namespace ExpenseServiceAPI.Controllers
             return NoContent();
         }
 
-        // POST: api/Budgets
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
-        // more details see https://aka.ms/RazorPagesCRUD.
+        // POST: api/Bills
         [HttpPost]
-        public async Task<ActionResult<Budgets>> PostBudgets(Budgets budgets)
+        public async Task<ActionResult> PostBudgets(ExpenseService.ServiceeAccess.Models.Budgets budgets)
         {
-            _context.Budgets.Add(budgets);
-            await _context.SaveChangesAsync();
+            var newBudgets = Mapper.MapBudgets(budgets);
+            _ = _repo.AddBudgetAsync(newBudgets);
+
+            await _repo.SaveAsync();
 
             return CreatedAtAction("GetBudgets", new { id = budgets.Id }, budgets);
         }
 
-        // DELETE: api/Budgets/5
+        // DELETE: api/Bills/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Budgets>> DeleteBudgets(int id)
+        public async Task<ActionResult> DeleteBudgets(int id)
         {
-            var budgets = await _context.Budgets.FindAsync(id);
-            if (budgets == null)
-            {
-                return NotFound();
-            }
+            var resource = await _repo.RemoveBudgetAsync(id);
 
-            _context.Budgets.Remove(budgets);
-            await _context.SaveChangesAsync();
-
-            return budgets;
+            return Ok(resource);
         }
 
-        private bool BudgetsExists(int id)
+        private Task<bool> BudgetsExists(int id)
         {
-            return _context.Budgets.Any(e => e.Id == id);
+            return _repo.BudgetExsistsAsync(id);
         }
     }
 }

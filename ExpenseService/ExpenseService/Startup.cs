@@ -1,6 +1,5 @@
 using ExpenseService.Domain.Interrfaces;
 using ExpenseService.ServiceeAccess.Models;
-using ExpenseService.ServiceeAccess.Options;
 using ExpenseService.ServiceeAccess.Repository;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -25,9 +24,8 @@ namespace ExpenseService
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
-            services.Configure<ExpenseServiceOption>(Configuration.GetSection("ExpensesService"));
-            services.AddHttpClient<IExpensesService, ExpensesService>();
+            services.AddScoped<IExpensesRepository, ExpensesRepository>();
+            
             services.AddControllersWithViews();
             services.AddDbContext<RevatureDatabaseContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("Project2String")));

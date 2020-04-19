@@ -26,8 +26,9 @@ namespace ExpenseService
         {
             services.AddScoped<IExpensesRepository, ExpensesRepository>();
             services.AddScoped<IBillsRepository, Billrepository>();
+            services.AddScoped<IBudgetRepository, BudgetRepository>();
+
             
-            services.AddControllersWithViews();
             services.AddDbContext<RevatureDatabaseContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("Project2String")));
             // In production, the Angular files will be served from this directory

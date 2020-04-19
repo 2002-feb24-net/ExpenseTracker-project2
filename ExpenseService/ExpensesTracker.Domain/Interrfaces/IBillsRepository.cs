@@ -16,6 +16,6 @@ namespace ExpenseService.Domain.Interrfaces
         Task<bool> RemoveBillAsync(int id);
         public EntityState Changed(Bills bills);
 
-        void SaveAsync();
+        Task SaveAsync();
     }
 }

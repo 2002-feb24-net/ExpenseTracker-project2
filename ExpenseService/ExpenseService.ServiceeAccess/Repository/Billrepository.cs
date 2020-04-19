@@ -78,9 +78,9 @@ namespace ExpenseService.ServiceeAccess.Repository
             return written > 0;
         }
 
-        public void SaveAsync()
+        public Task SaveAsync()
         {
-             _context.SaveChangesAsync();
+             return _context.SaveChangesAsync();
         }
     }
 }

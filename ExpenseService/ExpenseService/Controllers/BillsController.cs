@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ExpenseService.ServiceeAccess.Models;
 using ExpenseService.Domain.Interrfaces;
+using ExpenseServiceAPI.ApiModel;
+using ExpenseService.ServiceeAccess;
 
 namespace ExpenseServiceAPI.Controllers
 {
@@ -14,54 +16,74 @@ namespace ExpenseServiceAPI.Controllers
     [ApiController]
     public class BillsController : ControllerBase
     {
-        private readonly RevatureDatabaseContext _context;
         private readonly IBillsRepository _repo;
 
-        public BillsController(RevatureDatabaseContext context, IBillsRepository repo)
+        public BillsController(IBillsRepository repo)
         {
-            _context = context;
+
             _repo = repo;
         }
 
         // GET: api/Bills
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Bills>>> GetBills()
+        [ProducesResponseType(typeof(IEnumerable<ApiModel.Bills>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult> GetBills()
         {
-            return await _context.Bills.ToListAsync();
+            var ListOfBills = await _repo.GetBillsAsync();
+
+            var resource = ListOfBills.Select(b => new ApiModel.Bills
+            {
+                Id = b.Id,
+                PurchaseName = b.PurchaseName,
+                Cost = b.Cost,
+                BillDate = b.BillDate,
+                Location = b.Location,
+                Quantity = b.Quantity,
+                UserId = b.UserId,
+                CurrentUser = ApiMapper.MapUserApi(b.CurrentUser)
+            });
+
+            return Ok(resource);
         }
 
         // GET: api/Bills/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Bills>> GetBills(int id)
+        [ProducesResponseType(typeof(ApiModel.Bills), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+
+        public async Task<ActionResult> GetBills(int id)
         {
-            var bills = await _context.Bills.FindAsync(id);
+            var bills = await _repo.GetBillByIdAsync(id);
+            var resource = ApiMapper.MapBillsApi(bills);
 
             if (bills == null)
             {
                 return NotFound();
             }
 
-            return bills;
+            return Ok(resource);
         }
 
         // PUT: api/Bills/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutBills(int id, Bills bills)
+        public async Task<IActionResult> PutBills(int id, ExpenseService.ServiceeAccess.Models.Bills bills)
         {
             if (id != bills.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(bills).State = EntityState.Modified;
+            var newBill = Mapper.MapBills(bills);
+            _repo.Changed(newBill);
 
             try
             {
-                await _context.SaveChangesAsync();
+                _repo.SaveAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!BillsExists(id))
+                if (!(await BillsExists(id)))
                 {
                     return NotFound();
                 }
@@ -76,33 +98,28 @@ namespace ExpenseServiceAPI.Controllers
 
         // POST: api/Bills
         [HttpPost]
-        public async Task<ActionResult<Bills>> PostBills(Bills bills)
+        public async Task<ActionResult> PostBills(ExpenseService.ServiceeAccess.Models.Bills bills)
         {
-            _context.Bills.Add(bills);
-            await _context.SaveChangesAsync();
+            var newBill = Mapper.MapBills(bills);
+            _ = _repo.AddBillAsync(newBill);
+
+            await _repo.SaveAsync();
 
             return CreatedAtAction("GetBills", new { id = bills.Id }, bills);
         }
 
         // DELETE: api/Bills/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Bills>> DeleteBills(int id)
+        public async Task<ActionResult> DeleteBills(int id)
         {
-            var bills = await _context.Bills.FindAsync(id);
-            if (bills == null)
-            {
-                return NotFound();
-            }
+            var resource = await _repo.RemoveBillAsync(id);
 
-            _context.Bills.Remove(bills);
-            await _context.SaveChangesAsync();
-
-            return bills;
+            return Ok(resource);
         }
 
-        private bool BillsExists(int id)
+        private Task<bool> BillsExists(int id)
         {
-            return _context.Bills.Any(e => e.Id == id);
+            return _repo.BillExsistsAsync(id);
         }
     }
 }

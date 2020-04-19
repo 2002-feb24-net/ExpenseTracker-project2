@@ -7,15 +7,15 @@ using System.Threading.Tasks;
 
 namespace ExpenseService.Domain.Interrfaces
 {
-    interface IBillsRepository
+    public interface IBillsRepository
     {
-        Task<IEnumerable<Bills>> GetBillsAsync();
+        Task<IEnumerable<Bills>> GetBillsAsync(int? userId = null);
         Task<Bills> GetBillByIdAsync(int id);
         Task<bool> BillExsistsAsync(int id);
-        Task<Users> AddBillAsync(Users users);
+        Task<Bills> AddBillAsync(Bills bills);
         Task<bool> RemoveBillAsync(int id);
         public EntityState Changed(Bills bills);
 
-        Task SaveAsync();
+        void SaveAsync();
     }
 }

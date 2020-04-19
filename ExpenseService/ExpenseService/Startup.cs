@@ -25,6 +25,7 @@ namespace ExpenseService
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddScoped<IExpensesRepository, ExpensesRepository>();
+            services.AddScoped<IBillsRepository, Billrepository>();
             
             services.AddControllersWithViews();
             services.AddDbContext<RevatureDatabaseContext>(options =>

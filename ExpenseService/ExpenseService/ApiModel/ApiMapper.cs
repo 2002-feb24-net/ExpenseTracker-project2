@@ -23,6 +23,18 @@ namespace ExpenseServiceAPI.ApiModel
             };
         }
 
+        public static Budgets MapBudgets(ExpenseService.Domain.Model.Budgets budgets)
+        {
+            return new Budgets
+            {
+                Id = budgets.Id,
+                ActualCost = budgets.ActualCost,
+                EstimatedCost = budgets.EstimatedCost,
+                UserId = budgets.UserId,
+                User = MapUserApi(budgets.CurrentUser)
+            };
+        }
+
         public static Users MapUserApi(ExpenseService.Domain.Model.Users users)
         {
             return new Users

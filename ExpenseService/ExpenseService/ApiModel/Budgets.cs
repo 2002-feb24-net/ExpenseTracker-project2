@@ -9,13 +9,11 @@ namespace ExpenseServiceAPI.ApiModel
     {
         public int Id { get; set; }
         public int UserId { get; set; }
+        public decimal EstimatedCost { get; set; }
+        public decimal ActualCost { get; set; }
+        public string Subscription { get; set; }
+        public string Loan { get; set; }
 
-        public Users CurrentUser { get; set; }
-
-        public string PurchaseName { get; set; }
-        public int Quantity { get; set; }
-        public decimal Cost { get; set; }
-        public DateTime BillDate { get; set; }
-        public string Location { get; set; }
+        public Users User { get; set; }
     }
 }

@@ -30,9 +30,9 @@ namespace ExpenseServiceAPI.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult> GetBudgets()
         {
-            var ListOfBills = await _repo.GetBudgetsAsync();
+            var ListOfBudgets = await _repo.GetBudgetsAsync();
 
-            var resource = ListOfBills.Select(b => new ApiModel.Budgets
+            var resource = ListOfBudgets.Select(b => new ApiModel.Budgets
             {
                 Id = b.Id,
                 ActualCost = b.ActualCost,

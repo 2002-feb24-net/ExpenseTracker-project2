@@ -1,4 +1,5 @@
 ﻿using ExpenseService.Domain.Model;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -13,5 +14,8 @@ namespace ExpenseService.Domain.Interrfaces
         Task<bool> UserExsistsAsync(int id);
         Task<Users> AddUsersAsync(Users users);
         Task<bool> RemoveUserAsync(int id);
+        public EntityState Changed(Users users);
+
+        Task SaveAsync();
     }
 }

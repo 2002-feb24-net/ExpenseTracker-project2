@@ -65,9 +65,14 @@ namespace ExpenseService.ServiceeAccess.Repository
 
         }
 
-        public async     Task<bool> UserExsistsAsync(int id)
+        public async Task<bool> UserExsistsAsync(int id)
         {
             return await _context.Users.AnyAsync(a => a.Id == id);
+        }
+
+        public EntityState Changed(Domain.Model.Users users)
+        {
+            return _context.Entry(users).State = EntityState.Modified;
         }
 
 
@@ -85,6 +90,21 @@ namespace ExpenseService.ServiceeAccess.Repository
                 PhoneNumber = users.PhoneNumber
             };
 
+        }
+
+        public async Task SaveAsync()
+        {
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task<Models.Users> GetUserByIdAsync(int id)
+        {
+            return await _context.Users.FindAsync(id);
+        }
+
+        public void RemoveUsers(Models.Users users)
+        {
+            _context.Users.Remove(users);
         }
     }
 }

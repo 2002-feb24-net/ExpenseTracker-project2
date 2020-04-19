@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ExpenseService.ServiceeAccess.Models;
 using ExpenseService.Domain.Interrfaces;
+using ExpenseService.ServiceeAccess;
 
 namespace ExpenseServiceAPI.Controllers
 {
@@ -14,7 +15,6 @@ namespace ExpenseServiceAPI.Controllers
     [ApiController]
     public class UsersController : ControllerBase
     {
-        private readonly RevatureDatabaseContext _context;
 
         private readonly IExpensesRepository _repo;
 
@@ -27,28 +27,48 @@ namespace ExpenseServiceAPI.Controllers
         [HttpGet]
         [ProducesResponseType(typeof(IEnumerable<ApiModel.Users>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> GetAllAsync()
+        public async Task<ActionResult> GetAllUsersAsync()
         {
-            IEnumerable<ExpenseService.Domain.Model.Users> users = await _repo.GetUsersAsync();
-            IEnumerable<ApiModel.Users> resource = users.Select(u +)
-            
+            IEnumerable<ExpenseService.Domain.Model.Users> user = await _repo.GetUsersAsync();
+
+            IEnumerable<ApiModel.Users> resource = user.Select(u => new ApiModel.Users
+            {
+                Id = u.Id,
+                Name = u.Name,
+                Email = u.Email,
+                Password = u.Password,
+                Address = u.Address,
+                PhoneNumber = u.PhoneNumber,
+                Membership = u.Membership
+            });
 
             return Ok(resource);
         }
 
-
         // GET: api/Users/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Users>> GetUsers(int id)
+        [ProducesResponseType(typeof(ApiModel.Users), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult> GetUsers(int id)
         {
-            var users = await _context.Users.FindAsync(id);
+            ExpenseService.Domain.Model.Users user = await _repo.GetUserAsync(id);
+            var resource = new ApiModel.Users
+            {
+                Id = user.Id,
+                Name = user.Name,
+                Email = user.Email,
+                Password = user.Password,
+                Address = user.Address,
+                PhoneNumber = user.PhoneNumber,
+                Membership = user.Membership
+            };
 
-            if (users == null)
+            if (resource == null)
             {
                 return NotFound();
             }
-
-            return users;
+            
+            return Ok(resource);
         }
 
         // PUT: api/Users/5
@@ -62,15 +82,16 @@ namespace ExpenseServiceAPI.Controllers
                 return BadRequest();
             }
 
-            _context.Entry(users).State = EntityState.Modified;
+            var newUser = Mapper.MapUsers(users);
+            _repo.Changed(newUser);
 
             try
             {
-                await _context.SaveChangesAsync();
+                await _repo.SaveAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!UsersExists(id))
+                if (!(await UsersExists(id)))
                 {
                     return NotFound();
                 }
@@ -87,33 +108,35 @@ namespace ExpenseServiceAPI.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPost]
-        public async Task<ActionResult<Users>> PostUsers(Users users)
+        public async Task<ActionResult> PostUsers(ExpenseService.Domain.Model.Users user)
         {
-            _context.Users.Add(users);
-            await _context.SaveChangesAsync();
+            ExpenseService.Domain.Model.Users add = await _repo.AddUsersAsync(user);
+            var resource = new ApiModel.Users
+            {
+                Id = add.Id,
+                Name = add.Name,
+                Email = add.Email,
+                Password = add.Password,
+                Address = add.Address,
+                PhoneNumber = add.PhoneNumber,
+                Membership = add.Membership
+            };
 
-            return CreatedAtAction("GetUsers", new { id = users.Id }, users);
+            return Ok(resource);
         }
 
         // DELETE: api/Users/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Users>> DeleteUsers(int id)
+        public ActionResult DeleteUsers(int id)
         {
-            var users = await _context.Users.FindAsync(id);
-            if (users == null)
-            {
-                return NotFound();
-            }
+            var resource = _repo.RemoveUserAsync(id);
 
-            _context.Users.Remove(users);
-            await _context.SaveChangesAsync();
-
-            return users;
+            return Ok(resource);
         }
 
-        private bool UsersExists(int id)
+        private Task<bool> UsersExists(int id)
         {
-            return _context.Users.Any(e => e.Id == id);
+            return _repo.UserExsistsAsync(id);
         }
     }
 }

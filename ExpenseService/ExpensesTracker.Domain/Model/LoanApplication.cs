@@ -13,5 +13,7 @@ namespace ExpenseService.Domain.Model
         public decimal EstIncome { get; set; }
         public bool? ApprovalDenialComformation { get; set; }
         public decimal LoanAmount { get; set; }
+
+        public Users Users { get; set; }
     }
 }

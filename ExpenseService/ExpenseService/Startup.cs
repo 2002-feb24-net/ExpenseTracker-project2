@@ -27,6 +27,7 @@ namespace ExpenseService
             services.AddScoped<IExpensesRepository, ExpensesRepository>();
             services.AddScoped<IBillsRepository, Billrepository>();
             services.AddScoped<IBudgetRepository, BudgetRepository>();
+            services.AddScoped<ILoanRepository, LoanRepository>();
 
 
             services.AddControllersWithViews();

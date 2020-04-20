@@ -7,13 +7,13 @@ using System.Threading.Tasks;
 
 namespace ExpenseService.Domain.Interrfaces
 {
-    public interface IApplicatino
+    public interface IApplication
     {
         Task<IEnumerable<LoanApplication>> GetLoanApplicationAsync(int? userId = null);
-        Task<LoanApplication> GetBudgetByIdAsync(int id);
-        Task<bool> BudgetExsistsAsync(int id);
-        Task<LoanApplication> AddBudgetAsync(LoanApplication LoanApplication);
-        Task<bool> RemoveBudgetAsync(int id);
+        Task<LoanApplication> GetLoanApplicationByIdAsync(int id);
+        Task<bool> LoanApplicationExsistsAsync(int id);
+        Task<LoanApplication> AddLoanApplicationAsync(LoanApplication LoanApplication);
+        Task<bool> RemoveLoanApplicationAsync(int id);
         public EntityState Changed(LoanApplication LoanApplication);
 
         Task SaveAsync();

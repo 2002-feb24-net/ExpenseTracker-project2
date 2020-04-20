@@ -151,5 +151,35 @@ namespace ExpenseService.ServiceeAccess
                 User = MapUsers(application.Users)
             };
         }
+
+        public static Subscriptions MapSub(Models.Subscriptions subscriptions)
+        {
+            return new Subscriptions
+            {
+                Id = subscriptions.Id,
+                SubscriptionDate = subscriptions.SubscriptionDate,
+                SubscriptionDueDate = subscriptions.SubscriptionDueDate,
+                Company = subscriptions.Company,
+                Notification = subscriptions.Notification,
+                SubscriptionMonthCost = subscriptions.SubscriptionMonthCost,
+                SubscriptionName = subscriptions.SubscriptionName,
+                User = MapUsers(subscriptions.User)
+            };
+        }
+
+        public static Models.Subscriptions MapSub(Subscriptions subscriptions)
+        {
+            return new Models.Subscriptions
+            {
+                Id = subscriptions.Id,
+                SubscriptionDate = subscriptions.SubscriptionDate,
+                SubscriptionDueDate = subscriptions.SubscriptionDueDate,
+                Company = subscriptions.Company,
+                Notification = subscriptions.Notification,
+                SubscriptionMonthCost = subscriptions.SubscriptionMonthCost,
+                SubscriptionName = subscriptions.SubscriptionName,
+                User = MapUsers(subscriptions.User)
+            };
+        }
     }
 }

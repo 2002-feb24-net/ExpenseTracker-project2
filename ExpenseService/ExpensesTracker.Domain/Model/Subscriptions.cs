@@ -4,7 +4,7 @@ using System.Text;
 
 namespace ExpenseService.Domain.Model
 {
-    class Subscriptions
+    public class Subscriptions
     {
         public int Id { get; set; }
         public int UserId { get; set; }

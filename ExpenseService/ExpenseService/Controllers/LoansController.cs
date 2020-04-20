@@ -6,6 +6,9 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ExpenseService.ServiceeAccess.Models;
+using ExpenseService.Domain.Interrfaces;
+using ExpenseService.ServiceeAccess;
+using ExpenseServiceAPI.ApiModel;
 
 namespace ExpenseServiceAPI.Controllers
 {
@@ -13,54 +16,73 @@ namespace ExpenseServiceAPI.Controllers
     [ApiController]
     public class LoansController : ControllerBase
     {
-        private readonly RevatureDatabaseContext _context;
+        private readonly ILoanRepository _repo;
 
-        public LoansController(RevatureDatabaseContext context)
+        public LoansController(ILoanRepository repo)
         {
-            _context = context;
+
+            _repo = repo;
         }
 
-        // GET: api/Loans
+        // GET: api/Bills
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Loan>>> GetLoan()
+        [ProducesResponseType(typeof(IEnumerable<ApiModel.Loan>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult> GetLoan()
         {
-            return await _context.Loan.ToListAsync();
+            var ListOfLoan = await _repo.GetLoanAsync();
+
+            var resource = ListOfLoan.Select(b => new ApiModel.Loan
+            {
+                Id = b.Id,
+                AccumulatedCost = b.AccumulatedCost,
+                InterestRate = b.InterestRate,
+                MonthlyRate = b.MonthlyRate,
+                RetainingCost = b.RetainingCost,
+                UserId = b.UserId,
+                CurrentUser = ApiMapper.MapUserApi(b.CurrentUser)
+            });
+
+            return Ok(resource);
         }
 
-        // GET: api/Loans/5
+        // GET: api/Bills/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Loan>> GetLoan(int id)
+        [ProducesResponseType(typeof(ApiModel.Loan), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+
+        public async Task<ActionResult> GetLoan(int id)
         {
-            var loan = await _context.Loan.FindAsync(id);
+            var loan = await _repo.GetLoanByIdAsync(id);
+            var resource = ApiMapper.MapLoanApi(loan);
 
             if (loan == null)
             {
                 return NotFound();
             }
 
-            return loan;
+            return Ok(resource);
         }
 
-        // PUT: api/Loans/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
-        // more details see https://aka.ms/RazorPagesCRUD.
+        // PUT: api/Bills/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutLoan(int id, Loan loan)
+        public async Task<IActionResult> PutLoan(int id, ExpenseService.ServiceeAccess.Models.Loan loan)
         {
             if (id != loan.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(loan).State = EntityState.Modified;
+            var newLoan = Mapper.MapLoan(loan);
+            _repo.Changed(newLoan);
 
             try
             {
-                await _context.SaveChangesAsync();
+                await _repo.SaveAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!LoanExists(id))
+                if (!(await LoanExists(id)))
                 {
                     return NotFound();
                 }
@@ -73,37 +95,30 @@ namespace ExpenseServiceAPI.Controllers
             return NoContent();
         }
 
-        // POST: api/Loans
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
-        // more details see https://aka.ms/RazorPagesCRUD.
+        // POST: api/Bills
         [HttpPost]
-        public async Task<ActionResult<Loan>> PostLoan(Loan loan)
+        public async Task<ActionResult> PostLoan(ExpenseService.ServiceeAccess.Models.Loan loan)
         {
-            _context.Loan.Add(loan);
-            await _context.SaveChangesAsync();
+            var newLoan = Mapper.MapLoan(loan);
+            _ = _repo.AddLoanAsync(newLoan);
+
+            await _repo.SaveAsync();
 
             return CreatedAtAction("GetLoan", new { id = loan.Id }, loan);
         }
 
-        // DELETE: api/Loans/5
+        // DELETE: api/Bills/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Loan>> DeleteLoan(int id)
+        public async Task<ActionResult> DeleteLoan(int id)
         {
-            var loan = await _context.Loan.FindAsync(id);
-            if (loan == null)
-            {
-                return NotFound();
-            }
+            var resource = await _repo.RemoveLoanAsync(id);
 
-            _context.Loan.Remove(loan);
-            await _context.SaveChangesAsync();
-
-            return loan;
+            return Ok(resource);
         }
 
-        private bool LoanExists(int id)
+        private Task<bool> LoanExists(int id)
         {
-            return _context.Loan.Any(e => e.Id == id);
+            return _repo.LoanExsistsAsync(id);
         }
     }
 }

@@ -12,5 +12,7 @@ namespace ExpenseService.Domain.Model
         public decimal InterestRate { get; set; }
         public decimal RetainingCost { get; set; }
         public decimal AccumulatedCost { get; set; }
+
+        public Users CurrentUser { get; set; }
     }
 }

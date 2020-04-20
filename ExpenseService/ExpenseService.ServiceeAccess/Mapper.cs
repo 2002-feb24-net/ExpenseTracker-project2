@@ -76,8 +76,6 @@ namespace ExpenseService.ServiceeAccess
                 User = MapUsers(budgets.CurrentUser),
                 Loan = budgets.Loan,
                 Subscription = budgets.Subscription
-
-                //Add loan and subscription
             };
         }
         
@@ -92,8 +90,38 @@ namespace ExpenseService.ServiceeAccess
                 CurrentUser = MapUsers(budgets.User),
                 Loan = budgets.Loan,
                 Subscription = budgets.Subscription
-                //Add loan and subscription
             };
         }
+
+        public static Loan MapLoan(Models.Loan loan)
+        {
+            return new Loan
+            {
+                Id = loan.Id,
+                AccumulatedCost = loan.AccumulatedCost,
+                RetainingCost = loan.RetainingCost,
+                InterestRate = loan.InterestRate,
+                MonthlyRate = loan.MonthlyRate,
+                UserId = loan.UserId,
+                CurrentUser = MapUsers(loan.User)
+
+            };
+        }
+
+        public static Models.Loan MapLoan(Loan loan)
+        {
+            return new Models.Loan
+            {
+                Id = loan.Id,
+                AccumulatedCost = loan.AccumulatedCost,
+                InterestRate = loan.InterestRate,
+                MonthlyRate = loan.MonthlyRate,
+                RetainingCost = loan.RetainingCost,
+                UserId = loan.UserId,
+                User = MapUsers(loan.CurrentUser)
+            };
+        }
+
+
     }
 }

@@ -24,7 +24,7 @@ namespace ExpenseServiceAPI.Controllers
             _repo = repo;
         }
 
-        // GET: api/Bills
+        // GET: api/Loan
         [HttpGet]
         [ProducesResponseType(typeof(IEnumerable<ApiModel.Loan>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -46,7 +46,7 @@ namespace ExpenseServiceAPI.Controllers
             return Ok(resource);
         }
 
-        // GET: api/Bills/5
+        // GET: api/Loan/5
         [HttpGet("{id}")]
         [ProducesResponseType(typeof(ApiModel.Loan), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -64,7 +64,7 @@ namespace ExpenseServiceAPI.Controllers
             return Ok(resource);
         }
 
-        // PUT: api/Bills/5
+        // PUT: api/Loan/5
         [HttpPut("{id}")]
         public async Task<IActionResult> PutLoan(int id, ExpenseService.ServiceeAccess.Models.Loan loan)
         {
@@ -95,7 +95,7 @@ namespace ExpenseServiceAPI.Controllers
             return NoContent();
         }
 
-        // POST: api/Bills
+        // POST: api/Loan
         [HttpPost]
         public async Task<ActionResult> PostLoan(ExpenseService.ServiceeAccess.Models.Loan loan)
         {
@@ -107,7 +107,7 @@ namespace ExpenseServiceAPI.Controllers
             return CreatedAtAction("GetLoan", new { id = loan.Id }, loan);
         }
 
-        // DELETE: api/Bills/5
+        // DELETE: api/Loan/5
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteLoan(int id)
         {

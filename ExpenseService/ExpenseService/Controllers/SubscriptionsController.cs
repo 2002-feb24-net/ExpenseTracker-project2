@@ -6,6 +6,9 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ExpenseService.ServiceeAccess.Models;
+using ExpenseService.Domain.Interrfaces;
+using ExpenseServiceAPI.ApiModel;
+using ExpenseService.ServiceeAccess;
 
 namespace ExpenseServiceAPI.Controllers
 {
@@ -13,54 +16,75 @@ namespace ExpenseServiceAPI.Controllers
     [ApiController]
     public class SubscriptionsController : ControllerBase
     {
-        private readonly RevatureDatabaseContext _context;
+        private readonly ISubscription _repo;
 
-        public SubscriptionsController(RevatureDatabaseContext context)
+        public SubscriptionsController(ISubscription repo)
         {
-            _context = context;
+
+            _repo = repo;
         }
 
         // GET: api/Subscriptions
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Subscriptions>>> GetSubscriptions()
+        [ProducesResponseType(typeof(IEnumerable<ApiModel.Sub>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult> GetSubscriptions()
         {
-            return await _context.Subscriptions.ToListAsync();
+            var ListOfSubscriptions = await _repo.GetSubscriptionssAsync();
+
+            var resource = ListOfSubscriptions.Select(b => new ApiModel.Sub
+            {
+                Id = b.Id,
+                SubscriptionDate = b.SubscriptionDate,
+                SubscriptionDueDate = b.SubscriptionDueDate,
+                Company = b.Company,
+                Notification = b.Notification,
+                SubscriptionMonthCost = b.SubscriptionMonthCost,
+                SubscriptionName = b.SubscriptionName,
+                UserId = b.UserId,
+                User = ApiMapper.MapUserApi(b.User)
+            });
+
+            return Ok(resource);
         }
 
         // GET: api/Subscriptions/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Subscriptions>> GetSubscriptions(int id)
-        {
-            var subscriptions = await _context.Subscriptions.FindAsync(id);
+        [ProducesResponseType(typeof(ApiModel.Sub), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
 
-            if (subscriptions == null)
+        public async Task<ActionResult> GetSubscriptions(int id)
+        {
+            var Subscriptions = await _repo.GetSubscriptionsByIdAsync(id);
+            var resource = ApiMapper.MapSub(Subscriptions);
+
+            if (Subscriptions == null)
             {
                 return NotFound();
             }
 
-            return subscriptions;
+            return Ok(resource);
         }
 
         // PUT: api/Subscriptions/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
-        // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutSubscriptions(int id, Subscriptions subscriptions)
+        public async Task<IActionResult> PutSubscriptions(int id, ExpenseService.ServiceeAccess.Models.Subscriptions Subscriptions)
         {
-            if (id != subscriptions.Id)
+            if (id != Subscriptions.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(subscriptions).State = EntityState.Modified;
+            var newSubscriptions = Mapper.MapSub(Subscriptions);
+            _repo.Changed(newSubscriptions);
 
             try
             {
-                await _context.SaveChangesAsync();
+                await _repo.SaveAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!SubscriptionsExists(id))
+                if (!(await SubscriptionsExists(id)))
                 {
                     return NotFound();
                 }
@@ -74,36 +98,29 @@ namespace ExpenseServiceAPI.Controllers
         }
 
         // POST: api/Subscriptions
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
-        // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPost]
-        public async Task<ActionResult<Subscriptions>> PostSubscriptions(Subscriptions subscriptions)
+        public async Task<ActionResult> PostSubscriptions(ExpenseService.ServiceeAccess.Models.Subscriptions Subscriptions)
         {
-            _context.Subscriptions.Add(subscriptions);
-            await _context.SaveChangesAsync();
+            var newSubscriptions = Mapper.MapSub(Subscriptions);
+            _ = _repo.AddSubscriptionsAsync(newSubscriptions);
 
-            return CreatedAtAction("GetSubscriptions", new { id = subscriptions.Id }, subscriptions);
+            await _repo.SaveAsync();
+
+            return CreatedAtAction("GetSubscriptions", new { id = Subscriptions.Id }, Subscriptions);
         }
 
         // DELETE: api/Subscriptions/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Subscriptions>> DeleteSubscriptions(int id)
+        public async Task<ActionResult> DeleteSubscriptions(int id)
         {
-            var subscriptions = await _context.Subscriptions.FindAsync(id);
-            if (subscriptions == null)
-            {
-                return NotFound();
-            }
+            var resource = await _repo.RemoveSubscriptionsAsync(id);
 
-            _context.Subscriptions.Remove(subscriptions);
-            await _context.SaveChangesAsync();
-
-            return subscriptions;
+            return Ok(resource);
         }
 
-        private bool SubscriptionsExists(int id)
+        private Task<bool> SubscriptionsExists(int id)
         {
-            return _context.Subscriptions.Any(e => e.Id == id);
+            return _repo.RemoveSubscriptionsAsync(id);
         }
     }
 }

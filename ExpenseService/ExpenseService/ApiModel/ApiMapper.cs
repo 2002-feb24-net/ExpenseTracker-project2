@@ -49,6 +49,18 @@ namespace ExpenseServiceAPI.ApiModel
             };
         }
 
-        
+        public static Loan MapLoanApi(ExpenseService.Domain.Model.Loan loan)
+        {
+            return new Loan
+            {
+                Id = loan.Id,
+                UserId = loan.UserId,
+                AccumulatedCost = loan.AccumulatedCost,
+                InterestRate = loan.InterestRate,
+                MonthlyRate = loan.MonthlyRate,
+                RetainingCost = loan.RetainingCost,
+                CurrentUser = MapUserApi(loan.CurrentUser)
+            };
+        }
     }
 }

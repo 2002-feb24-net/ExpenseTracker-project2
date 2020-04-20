@@ -62,5 +62,20 @@ namespace ExpenseServiceAPI.ApiModel
                 CurrentUser = MapUserApi(loan.CurrentUser)
             };
         }
+
+        public static Application MapApplication(ExpenseService.Domain.Model.LoanApplication application)
+        {
+            return new Application
+            {
+                ApprovalDenialComformation = application.ApprovalDenialComformation,
+                CreditScore = application.CreditScore,
+                EstIncome = application.EstIncome,
+                Id = application.Id,
+                LoanAmount = application.LoanAmount,
+                Ssn = application.Ssn,
+                UserId = application.UserId,
+                Users = MapUserApi(application.Users)
+            };
+        }
     }
 }

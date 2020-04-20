@@ -77,5 +77,21 @@ namespace ExpenseServiceAPI.ApiModel
                 Users = MapUserApi(application.Users)
             };
         }
+
+        public static Sub MapSub(ExpenseService.Domain.Model.Subscriptions sub)
+        {
+            return new Sub
+            {
+                Id = sub.Id,
+                SubscriptionDate = sub.SubscriptionDate,
+                SubscriptionDueDate = sub.SubscriptionDueDate,
+                Company = sub.Company,
+                Notification = sub.Notification,
+                SubscriptionMonthCost = sub.SubscriptionMonthCost,
+                SubscriptionName = sub.SubscriptionName,
+                UserId = sub.UserId,
+                User = MapUserApi(sub.User)
+            };
+        }
     }
 }

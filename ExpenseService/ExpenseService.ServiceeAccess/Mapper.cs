@@ -122,6 +122,34 @@ namespace ExpenseService.ServiceeAccess
             };
         }
 
+        public static LoanApplication MapApplication(Models.LoanApplication application)
+        {
+            return new LoanApplication
+            {
+                Id = application.Id,
+                ApprovalDenialComformation = application.ApprovalDenialComformation,
+                CreditScore = application.CreditScore,
+                EstIncome = application.EstIncome,
+                LoanAmount = application.LoanAmount,
+                Ssn = application.Ssn,
+                UserId = application.UserId,
+                Users = MapUsers(application.User)
+            };
+        }
 
+        public static Models.LoanApplication MapApplication(LoanApplication application)
+        {
+            return new Models.LoanApplication
+            {
+                Id = application.Id,
+                ApprovalDenialComformation = application.ApprovalDenialComformation,
+                CreditScore = application.CreditScore,
+                EstIncome = application.EstIncome,
+                LoanAmount = application.LoanAmount,
+                Ssn = application.Ssn,
+                UserId = application.UserId,
+                User = MapUsers(application.Users)
+            };
+        }
     }
 }

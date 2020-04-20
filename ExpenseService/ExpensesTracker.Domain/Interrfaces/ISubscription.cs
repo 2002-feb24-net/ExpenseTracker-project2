@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ExpenseService.Domain.Interrfaces
 {
-    interface ISubscription
+    public interface ISubscription
     {
         Task<IEnumerable<Subscriptions>> GetSubscriptionssAsync(int? userId = null);
         Task<Subscriptions> GetSubscriptionsByIdAsync(int id);

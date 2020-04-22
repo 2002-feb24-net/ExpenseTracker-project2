@@ -19,7 +19,7 @@ namespace ExpenseService.DataAccess.Repository
             _context = context;
         }
 
-        public async Task<Core.Model.Loan> AddLoanAsync(Core.Model.Loan Loan)
+        public async Task<Core.Model.CoreLoan> AddLoanAsync(Core.Model.CoreLoan Loan)
         {
             var newLoan = Mapper.MapLoan(Loan);
 
@@ -34,19 +34,19 @@ namespace ExpenseService.DataAccess.Repository
             return await _context.Loan.AnyAsync(u => u.Id == id);
         }
 
-        public EntityState Changed(Core.Model.Loan Loan)
+        public EntityState Changed(Core.Model.CoreLoan Loan)
         {
             return _context.Entry(Loan).State = EntityState.Modified;
         }
 
-        public async Task<Core.Model.Loan> GetLoanByIdAsync(int id)
+        public async Task<Core.Model.CoreLoan> GetLoanByIdAsync(int id)
         {
             var Loan = await _context.Loan.FirstOrDefaultAsync(a => a.Id == id);
 
             return MapLoan(Loan);
         }
 
-        public async Task<IEnumerable<Core.Model.Loan>> GetLoanAsync(int? userId = null)
+        public async Task<IEnumerable<Core.Model.CoreLoan>> GetLoanAsync(int? userId = null)
         {
             IQueryable<Model.Loan> query = _context.Loan
                 .Include(u => u.User);
@@ -83,9 +83,9 @@ namespace ExpenseService.DataAccess.Repository
             return _context.SaveChangesAsync();
         }
 
-        private static Core.Model.Loan MapLoan(Model.Loan loan)
+        private static Core.Model.CoreLoan MapLoan(Model.Loan loan)
         {
-            return loan is null ? null : new Core.Model.Loan
+            return loan is null ? null : new Core.Model.CoreLoan
             {
                 Id = loan.Id,
                 AccumulatedCost = loan.AccumulatedCost,

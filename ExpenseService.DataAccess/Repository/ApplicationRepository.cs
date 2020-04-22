@@ -19,7 +19,7 @@ namespace ExpenseService.DataAccess.Repository
             _context = context;
         }
 
-        public async Task<Core.Model.LoanApplication> AddLoanApplicationAsync(Core.Model.LoanApplication LoanApplication)
+        public async Task<Core.Model.CoreLoanApplication> AddLoanApplicationAsync(Core.Model.CoreLoanApplication LoanApplication)
         {
             var newLoanApplication = Mapper.MapApplication(LoanApplication);
 
@@ -34,19 +34,19 @@ namespace ExpenseService.DataAccess.Repository
             return await _context.LoanApplication.AnyAsync(u => u.Id == id);
         }
 
-        public EntityState Changed(Core.Model.LoanApplication LoanApplication)
+        public EntityState Changed(Core.Model.CoreLoanApplication LoanApplication)
         {
             return _context.Entry(LoanApplication).State = EntityState.Modified;
         }
 
-        public async Task<Core.Model.LoanApplication> GetLoanApplicationByIdAsync(int id)
+        public async Task<Core.Model.CoreLoanApplication> GetLoanApplicationByIdAsync(int id)
         {
             var LoanApplication = await _context.LoanApplication.FindAsync(id);
 
             return MapApplication(LoanApplication);
         }
 
-        public async Task<IEnumerable<Core.Model.LoanApplication>> GetLoanApplicationAsync(int? userId = null)
+        public async Task<IEnumerable<Core.Model.CoreLoanApplication>> GetLoanApplicationAsync(int? userId = null)
         {
             IQueryable<Model.LoanApplication> query = _context.LoanApplication
                 .Include(u => u.User);
@@ -83,9 +83,9 @@ namespace ExpenseService.DataAccess.Repository
             return _context.SaveChangesAsync();
         }
 
-        private static Core.Model.LoanApplication MapApplication(Model.LoanApplication application)
+        private static Core.Model.CoreLoanApplication MapApplication(Model.LoanApplication application)
         {
-            return application is null ? null : new Core.Model.LoanApplication
+            return application is null ? null : new Core.Model.CoreLoanApplication
             {
                 Id = application.Id,
                 ApprovalDenialComformation = application.ApprovalDenialComformation,

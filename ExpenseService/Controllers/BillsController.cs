@@ -26,13 +26,13 @@ namespace ExpenseServiceAPI.Controllers
 
         // GET: api/Bills
         [HttpGet]
-        [ProducesResponseType(typeof(IEnumerable<ApiModel.Bills>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(IEnumerable<ApiModel.ApiBills>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult> GetBills()
         {
             var ListOfBills = await _repo.GetBillsAsync();
 
-            var resource = ListOfBills.Select(b => new ApiModel.Bills
+            var resource = ListOfBills.Select(b => new ApiModel.ApiBills
             {
                 Id = b.Id,
                 PurchaseName = b.PurchaseName,
@@ -49,13 +49,13 @@ namespace ExpenseServiceAPI.Controllers
 
         // GET: api/Bills/5
         [HttpGet("{id}")]
-        [ProducesResponseType(typeof(ApiModel.Bills), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiModel.ApiBills), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
 
         public async Task<ActionResult> GetBills(int id)
         {
-            ExpenseService.Core.Model.Bills bills = await _repo.GetBillByIdAsync(id);
-            var resource = new ApiModel.Bills
+            ExpenseService.Core.Model.CoreBills bills = await _repo.GetBillByIdAsync(id);
+            var resource = new ApiModel.ApiBills
             {
                 Id = bills.Id,
                 BillDate = bills.BillDate,
@@ -126,7 +126,7 @@ namespace ExpenseServiceAPI.Controllers
 
             return Ok(resource);
         }
-
+        [HttpGet("{id}")]
         private Task<bool> BillsExists(int id)
         {
             return _repo.BillExsistsAsync(id);

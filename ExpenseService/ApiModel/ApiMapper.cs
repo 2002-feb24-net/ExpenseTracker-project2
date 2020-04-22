@@ -7,9 +7,9 @@ namespace ExpenseServiceAPI.ApiModel
 {
     public class ApiMapper
     {
-        public static Bills MapBillsApi(ExpenseService.Core.Model.Bills bills)
+        public static ApiBills MapBillsApi(ExpenseService.Core.Model.CoreBills bills)
         {
-            return new Bills
+            return new ApiBills
             {
                 Id = bills.Id,
                 BillDate = bills.BillDate,
@@ -23,9 +23,9 @@ namespace ExpenseServiceAPI.ApiModel
             };
         }
 
-        public static Budgets MapBudgets(ExpenseService.Core.Model.Budgets budgets)
+        public static ApiBudgets MapBudgets(ExpenseService.Core.Model.CoreBudgets budgets)
         {
-            return new Budgets
+            return new ApiBudgets
             {
                 Id = budgets.Id,
                 ActualCost = budgets.ActualCost,
@@ -35,9 +35,9 @@ namespace ExpenseServiceAPI.ApiModel
             };
         }
 
-        public static Users MapUserApi(ExpenseService.Core.Model.Users users)
+        public static ApiUsers MapUserApi(ExpenseService.Core.Model.CoreUsers users)
         {
-            return new Users
+            return new ApiUsers
             {
                 Id = users.Id,
                 Address = users.Address,
@@ -49,9 +49,9 @@ namespace ExpenseServiceAPI.ApiModel
             };
         }
 
-        public static Loan MapLoanApi(ExpenseService.Core.Model.Loan loan)
+        public static ApiLoan MapLoanApi(ExpenseService.Core.Model.CoreLoan loan)
         {
-            return new Loan
+            return new ApiLoan
             {
                 Id = loan.Id,
                 UserId = loan.UserId,
@@ -63,9 +63,9 @@ namespace ExpenseServiceAPI.ApiModel
             };
         }
 
-        public static Application MapApplication(ExpenseService.Core.Model.LoanApplication application)
+        public static ApiApplication MapApplication(ExpenseService.Core.Model.CoreLoanApplication application)
         {
-            return new Application
+            return new ApiApplication
             {
                 ApprovalDenialComformation = application.ApprovalDenialComformation,
                 CreditScore = application.CreditScore,
@@ -78,9 +78,9 @@ namespace ExpenseServiceAPI.ApiModel
             };
         }
 
-        public static Sub MapSub(ExpenseService.Core.Model.Subscriptions sub)
+        public static ApiSub MapSub(ExpenseService.Core.Model.CoreSubscriptions sub)
         {
-            return new Sub
+            return new ApiSub
             {
                 Id = sub.Id,
                 SubscriptionDate = sub.SubscriptionDate,

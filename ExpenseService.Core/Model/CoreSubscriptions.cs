@@ -4,7 +4,7 @@ using System.Text;
 
 namespace ExpenseService.Core.Model
 {
-    public class Subscriptions
+    public class CoreSubscriptions
     {
         public int Id { get; set; }
         public int UserId { get; set; }
@@ -15,6 +15,6 @@ namespace ExpenseService.Core.Model
         public DateTime SubscriptionDueDate { get; set; }
         public bool Notification { get; set; }
 
-        public Users User { get; set; }
+        public CoreUsers User { get; set; }
     }
 }

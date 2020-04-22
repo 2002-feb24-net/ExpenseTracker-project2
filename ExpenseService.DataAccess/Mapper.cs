@@ -9,9 +9,9 @@ namespace ExpenseService.DataAccess
     public class Mapper
     {
 
-        public static Core.Model.Users MapUsers(Model.Users users)
+        public static Core.Model.CoreUsers MapUsers(Model.Users users)
         {
-            return new Core.Model.Users
+            return new Core.Model.CoreUsers
             {
                 Id = users.Id,
                 Address = users.Address,
@@ -23,7 +23,7 @@ namespace ExpenseService.DataAccess
             };
         }
 
-        public static Model.Users MapUsers(Core.Model.Users users)
+        public static Model.Users MapUsers(Core.Model.CoreUsers users)
         {
             return new Model.Users
             {
@@ -37,9 +37,9 @@ namespace ExpenseService.DataAccess
             };
         }
 
-        public static Core.Model.Bills MapBills(Model.Bills bills)
+        public static Core.Model.CoreBills MapBills(Model.Bills bills)
         {
-            return new Core.Model.Bills
+            return new Core.Model.CoreBills
             {
                 Id = bills.Id,
                 BillDate = bills.BillDate,
@@ -52,7 +52,7 @@ namespace ExpenseService.DataAccess
             };
         }
 
-        public static Model.Bills MapBills(Core.Model.Bills bills)
+        public static Model.Bills MapBills(Core.Model.CoreBills bills)
         {
             return new Model.Bills
             {
@@ -67,7 +67,7 @@ namespace ExpenseService.DataAccess
             };
         }
 
-        public static Model.Budgets MapBudgets(Core.Model.Budgets budgets)
+        public static Model.Budgets MapBudgets(Core.Model.CoreBudgets budgets)
         {
             return new Model.Budgets
             {
@@ -81,9 +81,9 @@ namespace ExpenseService.DataAccess
             };
         }
 
-        public static Core.Model.Budgets MapBudgets(Model.Budgets budgets)
+        public static Core.Model.CoreBudgets MapBudgets(Model.Budgets budgets)
         {
-            return new Core.Model.Budgets
+            return new Core.Model.CoreBudgets
             {
                 Id = budgets.Id,
                 ActualCost = budgets.ActualCost,
@@ -95,9 +95,9 @@ namespace ExpenseService.DataAccess
             };
         }
 
-        public static Core.Model.Loan MapLoan(Model.Loan loan)
+        public static Core.Model.CoreLoan MapLoan(Model.Loan loan)
         {
-            return new Core.Model.Loan
+            return new Core.Model.CoreLoan
             {
                 Id = loan.Id,
                 AccumulatedCost = loan.AccumulatedCost,
@@ -110,7 +110,7 @@ namespace ExpenseService.DataAccess
             };
         }
 
-        public static Model.Loan MapLoan(Core.Model.Loan loan)
+        public static Model.Loan MapLoan(Core.Model.CoreLoan loan)
         {
             return new Model.Loan
             {
@@ -124,9 +124,9 @@ namespace ExpenseService.DataAccess
             };
         }
 
-        public static Core.Model.LoanApplication MapApplication(Model.LoanApplication application)
+        public static Core.Model.CoreLoanApplication MapApplication(Model.LoanApplication application)
         {
-            return new  Core.Model.LoanApplication
+            return new  Core.Model.CoreLoanApplication
             {
                 Id = application.Id,
                 ApprovalDenialComformation = application.ApprovalDenialComformation,
@@ -139,7 +139,7 @@ namespace ExpenseService.DataAccess
             };
         }
 
-        public static Model.LoanApplication MapApplication(Core.Model.LoanApplication application)
+        public static Model.LoanApplication MapApplication(Core.Model.CoreLoanApplication application)
         {
             return new Model.LoanApplication
             {
@@ -154,9 +154,9 @@ namespace ExpenseService.DataAccess
             };
         }
 
-        public static Core.Model.Subscriptions MapSub(Model.Subscriptions subscriptions)
+        public static Core.Model.CoreSubscriptions MapSub(Model.Subscriptions subscriptions)
         {
-            return new Core.Model.Subscriptions
+            return new Core.Model.CoreSubscriptions
             {
                 Id = subscriptions.Id,
                 SubscriptionDate = subscriptions.SubscriptionDate,
@@ -170,7 +170,7 @@ namespace ExpenseService.DataAccess
             };
         }
 
-        public static Model.Subscriptions MapSub(Core.Model.Subscriptions subscriptions)
+        public static Model.Subscriptions MapSub(Core.Model.CoreSubscriptions subscriptions)
         {
             return new Model.Subscriptions
             {

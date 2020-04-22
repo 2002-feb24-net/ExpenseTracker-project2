@@ -4,16 +4,15 @@ using System.Text;
 
 namespace ExpenseService.Core.Model
 {
-    public class Budgets
+    public class CoreLoan
     {
         public int Id { get; set; }
         public int UserId { get; set; }
+        public decimal MonthlyRate { get; set; }
+        public decimal InterestRate { get; set; }
+        public decimal RetainingCost { get; set; }
+        public decimal AccumulatedCost { get; set; }
 
         //public Users CurrentUser { get; set; }
-
-        public decimal EstimatedCost { get; set; }
-        public decimal ActualCost { get; set; }
-        public string Subscription { get; set; }
-        public string Loan { get; set; }
     }
 }

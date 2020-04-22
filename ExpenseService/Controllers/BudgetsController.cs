@@ -26,13 +26,13 @@ namespace ExpenseServiceAPI.Controllers
 
         // GET: api/Bills
         [HttpGet]
-        [ProducesResponseType(typeof(IEnumerable<ApiModel.Budgets>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(IEnumerable<ApiModel.ApiBudgets>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult> GetBudgets()
         {
             var ListOfBudgets = await _repo.GetBudgetsAsync();
 
-            var resource = ListOfBudgets.Select(b => new ApiModel.Budgets
+            var resource = ListOfBudgets.Select(b => new ApiModel.ApiBudgets
             {
                 Id = b.Id,
                 ActualCost = b.ActualCost,
@@ -46,7 +46,7 @@ namespace ExpenseServiceAPI.Controllers
 
         // GET: api/Bills/5
         [HttpGet("{id}")]
-        [ProducesResponseType(typeof(ApiModel.Budgets), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiModel.ApiBudgets), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
 
         public async Task<ActionResult> GetBudgets(int id)
@@ -113,7 +113,7 @@ namespace ExpenseServiceAPI.Controllers
 
             return Ok(resource);
         }
-
+        [HttpGet("{id}")]
         private Task<bool> BudgetsExists(int id)
         {
             return _repo.BudgetExsistsAsync(id);

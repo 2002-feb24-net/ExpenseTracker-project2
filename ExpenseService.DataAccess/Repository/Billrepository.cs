@@ -19,7 +19,7 @@ namespace ExpenseService.DataAccess.Repository
             _context = context;
         }
 
-        public async Task <Core.Model.Bills> AddBillAsync(Core.Model.Bills bills)
+        public async Task <Core.Model.CoreBills> AddBillAsync(Core.Model.CoreBills bills)
         {
             var newBill = Mapper.MapBills(bills);
 
@@ -34,19 +34,19 @@ namespace ExpenseService.DataAccess.Repository
             return await _context.Bills.AnyAsync(u => u.Id == id);
         }
 
-        public EntityState Changed(Core.Model.Bills bills)
+        public EntityState Changed(Core.Model.CoreBills bills)
         {
             return _context.Entry(bills).State = EntityState.Modified;
         }
 
-        public async Task<Core.Model.Bills> GetBillByIdAsync(int id)
+        public async Task<Core.Model.CoreBills> GetBillByIdAsync(int id)
         {
             var bill = await _context.Bills.FindAsync(id);
 
             return MapBills(bill);
         }
 
-        public async Task<IEnumerable<Core.Model.Bills>> GetBillsAsync(int? userId = null)
+        public async Task<IEnumerable<Core.Model.CoreBills>> GetBillsAsync(int? userId = null)
         {
             IQueryable<Model.Bills> query = _context.Bills
                 .Include(u => u.User);
@@ -83,9 +83,9 @@ namespace ExpenseService.DataAccess.Repository
              return _context.SaveChangesAsync();
         }
 
-        private static Core.Model.Bills MapBills(Model.Bills bills)
+        private static Core.Model.CoreBills MapBills(Model.Bills bills)
         {
-            return bills  is null ? null : new Core.Model.Bills
+            return bills  is null ? null : new Core.Model.CoreBills
             {
                 Id = bills.Id,
                 BillDate = bills.BillDate,

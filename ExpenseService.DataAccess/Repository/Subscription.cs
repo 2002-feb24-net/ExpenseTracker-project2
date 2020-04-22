@@ -19,7 +19,7 @@ namespace ExpenseService.DataAccess.Repository
             _context = context;
         }
 
-        public async Task<Core.Model.Subscriptions> AddSubscriptionsAsync(Core.Model.Subscriptions Subscriptions)
+        public async Task<Core.Model.CoreSubscriptions> AddSubscriptionsAsync(Core.Model.CoreSubscriptions Subscriptions)
         {
             var newUser = new Model.Subscriptions
             {
@@ -42,19 +42,19 @@ namespace ExpenseService.DataAccess.Repository
             return await _context.Subscriptions.AnyAsync(u => u.Id == id);
         }
 
-        public EntityState Changed(Core.Model.Subscriptions Subscriptions)
+        public EntityState Changed(Core.Model.CoreSubscriptions Subscriptions)
         {
             return _context.Entry(Subscriptions).State = EntityState.Modified;
         }
 
-        public async Task<Core.Model.Subscriptions> GetSubscriptionsByIdAsync(int id)
+        public async Task<Core.Model.CoreSubscriptions> GetSubscriptionsByIdAsync(int id)
         {
             var Subscriptions = await _context.Subscriptions.FindAsync(id);
 
             return MapSub(Subscriptions);
         }
 
-        public async Task<IEnumerable<Core.Model.Subscriptions>> GetSubscriptionssAsync(int? userId = null)
+        public async Task<IEnumerable<Core.Model.CoreSubscriptions>> GetSubscriptionssAsync(int? userId = null)
         {
             IQueryable<Model.Subscriptions> query = _context.Subscriptions;
 
@@ -90,9 +90,9 @@ namespace ExpenseService.DataAccess.Repository
             return _context.SaveChangesAsync();
         }
 
-        private static Core.Model.Subscriptions MapSub(Model.Subscriptions subscriptions)
+        private static Core.Model.CoreSubscriptions MapSub(Model.Subscriptions subscriptions)
         {
-            return subscriptions is null ? null : new Core.Model.Subscriptions
+            return subscriptions is null ? null : new Core.Model.CoreSubscriptions
             {
                 Id = subscriptions.Id,
                 SubscriptionDate = subscriptions.SubscriptionDate,

@@ -26,13 +26,13 @@ namespace ExpenseServiceAPI.Controllers
 
         // GET: api/LoanApplication
         [HttpGet]
-        [ProducesResponseType(typeof(IEnumerable<ApiModel.Application>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(IEnumerable<ApiModel.ApiApplication>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult> GetLoanApplication()
         {
             var ListOfLoanApplication = await _repo.GetLoanApplicationAsync();
 
-            var resource = ListOfLoanApplication.Select(b => new Application
+            var resource = ListOfLoanApplication.Select(b => new ApiApplication
             {
                 Id = b.Id,
                 ApprovalDenialComformation = b.ApprovalDenialComformation,
@@ -49,7 +49,7 @@ namespace ExpenseServiceAPI.Controllers
 
         // GET: api/LoanApplication/5
         [HttpGet("{id}")]
-        [ProducesResponseType(typeof(Application), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiApplication), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
 
         public async Task<ActionResult> GetLoanApplication(int id)
@@ -117,7 +117,7 @@ namespace ExpenseServiceAPI.Controllers
 
             return Ok(resource);
         }
-
+        [HttpGet("{id}")]
         private Task<bool> LoanApplicationExists(int id)
         {
             return _repo.LoanApplicationExsistsAsync(id);

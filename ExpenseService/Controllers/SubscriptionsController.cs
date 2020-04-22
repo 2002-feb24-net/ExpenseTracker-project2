@@ -26,13 +26,13 @@ namespace ExpenseServiceAPI.Controllers
 
         // GET: api/Subscriptions
         [HttpGet]
-        [ProducesResponseType(typeof(IEnumerable<ApiModel.Sub>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(IEnumerable<ApiModel.ApiSub>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult> GetSubscriptions()
         {
             var ListOfSubscriptions = await _repo.GetSubscriptionssAsync();
 
-            var resource = ListOfSubscriptions.Select(b => new ApiModel.Sub
+            var resource = ListOfSubscriptions.Select(b => new ApiModel.ApiSub
             {
                 Id = b.Id,
                 SubscriptionDate = b.SubscriptionDate,
@@ -50,7 +50,7 @@ namespace ExpenseServiceAPI.Controllers
 
         // GET: api/Subscriptions/5
         [HttpGet("{id}")]
-        [ProducesResponseType(typeof(ApiModel.Sub), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiModel.ApiSub), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
 
         public async Task<ActionResult> GetSubscriptions(int id)
@@ -99,10 +99,10 @@ namespace ExpenseServiceAPI.Controllers
 
         // POST: api/Subscriptions
         [HttpPost]
-        public async Task<ActionResult> PostSubscriptions(ExpenseService.Core.Model.Subscriptions subscriptions)
+        public async Task<ActionResult> PostSubscriptions(ExpenseService.Core.Model.CoreSubscriptions subscriptions)
         {
-            ExpenseService.Core.Model.Subscriptions add = await _repo.AddSubscriptionsAsync(subscriptions);
-            var resource = new ApiModel.Sub
+            ExpenseService.Core.Model.CoreSubscriptions add = await _repo.AddSubscriptionsAsync(subscriptions);
+            var resource = new ApiModel.ApiSub
             {
                 Id = add.Id,
                 SubscriptionDate = add.SubscriptionDate,
@@ -124,10 +124,10 @@ namespace ExpenseServiceAPI.Controllers
 
             return Ok(resource);
         }
-
+        [HttpGet("{id}")]
         private Task<bool> SubscriptionsExists(int id)
         {
-            return _repo.RemoveSubscriptionsAsync(id);
+            return _repo.SubscriptionsExsistsAsync(id);
         }
     }
 }

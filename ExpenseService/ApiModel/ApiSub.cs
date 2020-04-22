@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace ExpenseServiceAPI.ApiModel
 {
-    public class Sub
+    public class ApiSub
     {
         public int Id { get; set; }
         public int UserId { get; set; }
@@ -16,6 +16,6 @@ namespace ExpenseServiceAPI.ApiModel
         public DateTime SubscriptionDueDate { get; set; }
         public bool Notification { get; set; }
 
-        public virtual Users User { get; set; }
+        public virtual ApiUsers User { get; set; }
     }
 }

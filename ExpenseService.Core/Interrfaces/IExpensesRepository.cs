@@ -9,12 +9,12 @@ namespace ExpenseService.Core.Interrfaces
 {
     public interface IExpensesRepository
     {
-        Task<IEnumerable<Users>> GetUsersAsync();
-        Task<Users> GetUserAsync(int id);
+        Task<IEnumerable<CoreUsers>> GetUsersAsync();
+        Task<CoreUsers> GetUserAsync(int id);
         Task<bool> UserExsistsAsync(int id);
-        Task<Users> AddUsersAsync(Users users);
+        Task<CoreUsers> AddUsersAsync(CoreUsers users);
         Task<bool> RemoveUserAsync(int id);
-        public EntityState Changed(Users users);
+        public EntityState Changed(CoreUsers users);
 
         Task SaveAsync();
     }

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace ExpenseService.Core.Model
 {
-    public class Bills
+    public class CoreBills
     {
         public int Id { get; set; }
         public int UserId { get; set; }

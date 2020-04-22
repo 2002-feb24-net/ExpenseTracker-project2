@@ -25,13 +25,13 @@ namespace ExpenseServiceAPI.Controllers
 
         // GET: api/Users
         [HttpGet]
-        [ProducesResponseType(typeof(IEnumerable<ApiModel.Users>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(IEnumerable<ApiModel.ApiUsers>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult> GetAllUsersAsync()
         {
-            IEnumerable<ExpenseService.Core.Model.Users> user = await _repo.GetUsersAsync();
+            IEnumerable<ExpenseService.Core.Model.CoreUsers> user = await _repo.GetUsersAsync();
 
-            IEnumerable<ApiModel.Users> resource = user.Select(u => new ApiModel.Users
+            IEnumerable<ApiModel.ApiUsers> resource = user.Select(u => new ApiModel.ApiUsers
             {
                 Id = u.Id,
                 Name = u.Name,
@@ -47,12 +47,12 @@ namespace ExpenseServiceAPI.Controllers
 
         // GET: api/Users/5
         [HttpGet("{id}")]
-        [ProducesResponseType(typeof(ApiModel.Users), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiModel.ApiUsers), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult> GetUsers(int id)
         {
-            ExpenseService.Core.Model.Users user = await _repo.GetUserAsync(id);
-            var resource = new ApiModel.Users
+            ExpenseService.Core.Model.CoreUsers user = await _repo.GetUserAsync(id);
+            var resource = new ApiModel.ApiUsers
             {
                 Id = user.Id,
                 Name = user.Name,
@@ -108,10 +108,10 @@ namespace ExpenseServiceAPI.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPost]
-        public async Task<ActionResult> PostUsers(ExpenseService.Core.Model.Users user)
+        public async Task<ActionResult> PostUsers(ExpenseService.Core.Model.CoreUsers user)
         {
-            ExpenseService.Core.Model.Users add = await _repo.AddUsersAsync(user);
-            var resource = new ApiModel.Users
+            ExpenseService.Core.Model.CoreUsers add = await _repo.AddUsersAsync(user);
+            var resource = new ApiModel.ApiUsers
             {
                 Id = add.Id,
                 Name = add.Name,
@@ -133,7 +133,7 @@ namespace ExpenseServiceAPI.Controllers
 
             return Ok(resource);
         }
-
+        [HttpGet("{id}")]
         private Task<bool> UsersExists(int id)
         {
             return _repo.UserExsistsAsync(id);

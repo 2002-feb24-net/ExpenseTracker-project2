@@ -20,7 +20,7 @@ namespace ExpenseService.DataAccess.Repository
             _context = context;
         }
 
-        public async Task<Core.Model.Users> AddUsersAsync(Core.Model.Users user)
+        public async Task<Core.Model.CoreUsers> AddUsersAsync(Core.Model.CoreUsers user)
         {
             var newUser = new Model.Users
             {
@@ -38,14 +38,14 @@ namespace ExpenseService.DataAccess.Repository
 
         }
 
-        public async Task<Core.Model.Users> GetUserAsync(int id)
+        public async Task<Core.Model.CoreUsers> GetUserAsync(int id)
         {
             Model.Users users = await _context.Users.FirstAsync(u => u.Id == id);
 
             return MapUser(users);
         }
 
-        public async Task<IEnumerable<Core.Model.Users>> GetUsersAsync()
+        public async Task<IEnumerable<Core.Model.CoreUsers>> GetUsersAsync()
         {
             List<Model.Users> users = await _context.Users.ToListAsync();
             return users.Select(MapUser);
@@ -75,16 +75,16 @@ namespace ExpenseService.DataAccess.Repository
             return await _context.Users.AnyAsync(a => a.Id == id);
         }
 
-        public EntityState Changed(Core.Model.Users users)
+        public EntityState Changed(Core.Model.CoreUsers users)
         {
             return _context.Entry(users).State = EntityState.Modified;
         }
 
 
 
-        private static Core.Model.Users MapUser(Model.Users users)
+        private static Core.Model.CoreUsers MapUser(Model.Users users)
         {
-            return users is null ? null : new Core.Model.Users
+            return users is null ? null : new Core.Model.CoreUsers
             {
                 Id = users.Id,
                 Name = users.Name,

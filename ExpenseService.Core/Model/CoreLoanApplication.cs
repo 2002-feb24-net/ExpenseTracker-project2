@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Text;
 
-namespace ExpenseServiceAPI.ApiModel
+namespace ExpenseService.Core.Model
 {
-    public class Application
+    public class CoreLoanApplication
     {
         public int Id { get; set; }
         public int UserId { get; set; }
@@ -15,6 +14,6 @@ namespace ExpenseServiceAPI.ApiModel
         public bool? ApprovalDenialComformation { get; set; }
         public decimal LoanAmount { get; set; }
 
-        public Users Users { get; set; }
+        public CoreUsers Users { get; set; }
     }
 }

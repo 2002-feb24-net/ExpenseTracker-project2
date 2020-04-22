@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
+using System.Threading.Tasks;
 
-namespace ExpenseService.Core.Model
+namespace ExpenseServiceAPI.ApiModel
 {
-    public class Loan
+    public class ApiLoan
     {
         public int Id { get; set; }
         public int UserId { get; set; }

@@ -9,12 +9,12 @@ namespace ExpenseService.Core.Interrfaces
 {
     public interface ISubscription
     {
-        Task<IEnumerable<Subscriptions>> GetSubscriptionssAsync(int? userId = null);
-        Task<Subscriptions> GetSubscriptionsByIdAsync(int id);
+        Task<IEnumerable<CoreSubscriptions>> GetSubscriptionssAsync(int? userId = null);
+        Task<CoreSubscriptions> GetSubscriptionsByIdAsync(int id);
         Task<bool> SubscriptionsExsistsAsync(int id);
-        Task<Subscriptions> AddSubscriptionsAsync(Subscriptions Subscriptions);
+        Task<CoreSubscriptions> AddSubscriptionsAsync(CoreSubscriptions Subscriptions);
         Task<bool> RemoveSubscriptionsAsync(int id);
-        public EntityState Changed(Subscriptions Subscriptions);
+        public EntityState Changed(CoreSubscriptions Subscriptions);
 
         Task SaveAsync();
     }

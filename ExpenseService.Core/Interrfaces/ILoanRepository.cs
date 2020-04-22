@@ -9,12 +9,12 @@ namespace ExpenseService.Core.Interrfaces
 {
     public interface ILoanRepository
     {
-        Task<IEnumerable<Loan>> GetLoanAsync(int? userId = null);
-        Task<Loan> GetLoanByIdAsync(int id);
+        Task<IEnumerable<CoreLoan>> GetLoanAsync(int? userId = null);
+        Task<CoreLoan> GetLoanByIdAsync(int id);
         Task<bool> LoanExsistsAsync(int id);
-        Task<Loan> AddLoanAsync(Loan Loan);
+        Task<CoreLoan> AddLoanAsync(CoreLoan Loan);
         Task<bool> RemoveLoanAsync(int id);
-        EntityState Changed(Loan Loan);
+        EntityState Changed(CoreLoan Loan);
 
         Task SaveAsync();
     }

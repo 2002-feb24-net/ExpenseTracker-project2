@@ -42,7 +42,7 @@ namespace ExpenseService
             services.AddScoped<ISubscription, Subscription>();
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Notes API", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Client API", Version = "v1" });
             });
             services.AddCors(options =>
             {
@@ -83,7 +83,7 @@ namespace ExpenseService
 
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Notes API V1");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Client API V1");
             });
 
             app.UseEndpoints(endpoints =>

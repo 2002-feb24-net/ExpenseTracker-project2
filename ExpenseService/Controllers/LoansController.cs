@@ -26,13 +26,13 @@ namespace ExpenseServiceAPI.Controllers
 
         // GET: api/Loan
         [HttpGet]
-        [ProducesResponseType(typeof(IEnumerable<ApiModel.Loan>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(IEnumerable<ApiModel.ApiLoan>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult> GetLoan()
         {
             var ListOfLoan = await _repo.GetLoanAsync();
 
-            var resource = ListOfLoan.Select(b => new ApiModel.Loan
+            var resource = ListOfLoan.Select(b => new ApiModel.ApiLoan
             {
                 Id = b.Id,
                 AccumulatedCost = b.AccumulatedCost,
@@ -48,13 +48,13 @@ namespace ExpenseServiceAPI.Controllers
 
         // GET: api/Loan/5
         [HttpGet("{id}")]
-        [ProducesResponseType(typeof(ApiModel.Loan), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiModel.ApiLoan), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
 
         public async Task<ActionResult> GetLoan(int id)
         {
             var loan = await _repo.GetLoanByIdAsync(id);
-            var resource = new ApiModel.Loan
+            var resource = new ApiModel.ApiLoan
             {
                 AccumulatedCost = loan.AccumulatedCost,
                 Id = loan.Id,
@@ -123,7 +123,7 @@ namespace ExpenseServiceAPI.Controllers
 
             return Ok(resource);
         }
-
+        [HttpGet("{id}")]
         private Task<bool> LoanExists(int id)
         {
             return _repo.LoanExsistsAsync(id);

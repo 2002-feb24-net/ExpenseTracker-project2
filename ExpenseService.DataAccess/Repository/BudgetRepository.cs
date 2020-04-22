@@ -19,7 +19,7 @@ namespace ExpenseService.DataAccess.Repository
             _context = context;
         }
 
-        public async Task<Core.Model.Budgets> AddBudgetAsync(Core.Model.Budgets Budgets)
+        public async Task<Core.Model.CoreBudgets> AddBudgetAsync(Core.Model.CoreBudgets Budgets)
         {
             var newBudget = Mapper.MapBudgets(Budgets);
 
@@ -34,19 +34,19 @@ namespace ExpenseService.DataAccess.Repository
             return await _context.Budgets.AnyAsync(u => u.Id == id);
         }
 
-        public EntityState Changed(Core.Model.Budgets Budgets)
+        public EntityState Changed(Core.Model.CoreBudgets Budgets)
         {
             return _context.Entry(Budgets).State = EntityState.Modified;
         }
 
-        public async Task<Core.Model.Budgets> GetBudgetByIdAsync(int id)
+        public async Task<Core.Model.CoreBudgets> GetBudgetByIdAsync(int id)
         {
             var Budget = await _context.Budgets.FindAsync(id);
 
             return MapBudgets(Budget);
         }
 
-        public async Task<IEnumerable<Core.Model.Budgets>> GetBudgetsAsync(int? userId = null)
+        public async Task<IEnumerable<Core.Model.CoreBudgets>> GetBudgetsAsync(int? userId = null)
         {
             IQueryable<Model.Budgets> query = _context.Budgets
                 .Include(u => u.User);
@@ -83,9 +83,9 @@ namespace ExpenseService.DataAccess.Repository
             return _context.SaveChangesAsync();
         }
 
-        private static Core.Model.Budgets MapBudgets(Model.Budgets budgets)
+        private static Core.Model.CoreBudgets MapBudgets(Model.Budgets budgets)
         {
-            return budgets is null ? null : new Core.Model.Budgets
+            return budgets is null ? null : new Core.Model.CoreBudgets
             {
                 Id = budgets.Id,
                 ActualCost = budgets.ActualCost,

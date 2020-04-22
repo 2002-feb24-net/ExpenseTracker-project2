@@ -9,12 +9,12 @@ namespace ExpenseService.Core.Interrfaces
 {
     public interface IBillsRepository
     {
-        Task<IEnumerable<Bills>> GetBillsAsync(int? userId = null);
-        Task<Bills> GetBillByIdAsync(int id);
+        Task<IEnumerable<CoreBills>> GetBillsAsync(int? userId = null);
+        Task<CoreBills> GetBillByIdAsync(int id);
         Task<bool> BillExsistsAsync(int id);
-        Task<Bills> AddBillAsync(Bills bills);
+        Task<CoreBills> AddBillAsync(CoreBills bills);
         Task<bool> RemoveBillAsync(int id);
-        public EntityState Changed(Bills bills);
+        public EntityState Changed(CoreBills bills);
 
         Task SaveAsync();
     }

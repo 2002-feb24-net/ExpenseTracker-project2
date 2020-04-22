@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace ExpenseServiceAPI.ApiModel
 {
-    public class Users
+    public class ApiUsers
     {
         public int Id { get; set; }
         public string PhoneNumber { get; set; }

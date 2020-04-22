@@ -42,7 +42,7 @@ namespace ExpenseServiceAPI.Controllers
                 SubscriptionMonthCost = b.SubscriptionMonthCost,
                 SubscriptionName = b.SubscriptionName,
                 UserId = b.UserId,
-                User = ApiMapper.MapUserApi(b.User)
+                //User = ApiMapper.MapUserApi(b.User)
             });
 
             return Ok(resource);
@@ -99,14 +99,21 @@ namespace ExpenseServiceAPI.Controllers
 
         // POST: api/Subscriptions
         [HttpPost]
-        public async Task<ActionResult> PostSubscriptions(ExpenseService.DataAccess.Model.Subscriptions Subscriptions)
+        public async Task<ActionResult> PostSubscriptions(ExpenseService.Core.Model.Subscriptions subscriptions)
         {
-            var newSubscriptions = Mapper.MapSub(Subscriptions);
-            _ = _repo.AddSubscriptionsAsync(newSubscriptions);
-
-            await _repo.SaveAsync();
-
-            return CreatedAtAction("GetSubscriptions", new { id = Subscriptions.Id }, Subscriptions);
+            ExpenseService.Core.Model.Subscriptions add = await _repo.AddSubscriptionsAsync(subscriptions);
+            var resource = new ApiModel.Sub
+            {
+                Id = add.Id,
+                SubscriptionDate = add.SubscriptionDate,
+                SubscriptionDueDate = add.SubscriptionDueDate,
+                Company = add.Company,
+                Notification = add.Notification,
+                SubscriptionMonthCost = add.SubscriptionMonthCost,
+                SubscriptionName = add.SubscriptionName,
+                UserId = add.UserId
+            };
+            return Ok(resource);
         }
 
         // DELETE: api/Subscriptions/5

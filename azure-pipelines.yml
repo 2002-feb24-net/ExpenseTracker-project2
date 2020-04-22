@@ -1,10 +1,5 @@
 trigger:
-  branches:
-    include:
-    - master
-  paths:
-    exclude:
-    - README.md
+- master
 
 pr:
 - master
@@ -12,7 +7,6 @@ pr:
 stages:
 
 - stage: build
-  displayName: build
 
   variables:
     sdkVersion: 3.1.x
@@ -22,7 +16,6 @@ stages:
   jobs:
 
   - job: build
-    displayName: build
 
     pool:
       vmImage: ubuntu-latest
@@ -41,22 +34,27 @@ stages:
         publishWebProjects: true
         arguments:
           --configuration $(buildConfiguration)
-          --output $(Build.ArtifactStagingDirectory)/publish
+          --output $(Build.ArtifactStagingDirectory)/app
         modifyOutputPath: false
         zipAfterPublish: false
       displayName: dotnet publish
 
-    - publish: $(Build.ArtifactStagingDirectory)/publish
+    - publish: $(Build.ArtifactStagingDirectory)/app
       artifact: app
       displayName: artifact publish app
 
   - job: test
-    displayName: test and coverage
 
     pool:
       vmImage: ubuntu-latest
 
     steps:
+
+    - task: UseDotNet@2
+      inputs:
+        packageType: sdk
+        version: 2.1.x
+      displayName: dotnet 2.1.x
 
     - task: SonarCloudPrepare@1
       inputs:
@@ -66,27 +64,26 @@ stages:
         projectKey: '2002-feb24-net_ExpenseTracker-project2'
         projectName: 'ExpenseTracker'
         extraProperties: |
-          sonar.exclusions=**/lib/**
           sonar.cs.opencover.reportsPaths=$(Common.TestResultsDirectory)/*/coverage.opencover.xml
       displayName: sonarcloud analysis prepare
-
     - task: UseDotNet@2
-      enabled: false
       inputs:
         packageType: sdk
         version: $(sdkVersion)
       displayName: dotnet $(sdkVersion)
 
-    - script: dotnet build $(solutionPath)
+    - script: dotnet build
         --configuration $(buildConfiguration)
+      workingDirectory: $(solutionPath)
       displayName: dotnet build
 
-    - script: dotnet test $(solutionPath)
+    - script: dotnet test
         --configuration $(buildConfiguration)
         --logger trx
         --no-build
         --results-directory $(Common.TestResultsDirectory)
         --settings coverlet.runsettings
+      workingDirectory: $(solutionPath)
       continueOnError: true
       displayName: dotnet test
 
@@ -106,23 +103,18 @@ stages:
         codeCoverageTool: Cobertura
         summaryFileLocation: $(Common.TestResultsDirectory)/*/coverage.cobertura.xml
       displayName: code coverage build publish
-    
+
     - task: SonarCloudPublish@1
       condition: succeededOrFailed()
       displayName: sonarcloud results build publish
 
 - stage: deploy
-  displayName: deploy
   condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
   dependsOn: build
-  
-
-
 
   jobs:
 
   - deployment: deploy_dev
-    displayName: deploy dev
 
     pool:
       vmImage: ubuntu-latest
@@ -137,8 +129,7 @@ stages:
           - download: current
             artifact: app
             displayName: artifact download app
-          
-
+            
           - task: AzureRmWebAppDeployment@4
             inputs:
               ConnectionType: 'AzureRM'

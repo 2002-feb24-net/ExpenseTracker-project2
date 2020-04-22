@@ -89,7 +89,7 @@ namespace ExpenseServiceAPI.Controllers
 
             try
             {
-                _repo.SaveAsync();
+                await _repo.SaveAsync();
             }
             catch (DbUpdateConcurrencyException)
             {

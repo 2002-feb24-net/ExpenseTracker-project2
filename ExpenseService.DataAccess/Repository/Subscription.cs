@@ -21,12 +21,20 @@ namespace ExpenseService.DataAccess.Repository
 
         public async Task<Core.Model.Subscriptions> AddSubscriptionsAsync(Core.Model.Subscriptions Subscriptions)
         {
-            var newSubscriptions = Mapper.MapSub(Subscriptions);
-
-            _context.Subscriptions.Add(newSubscriptions);
+            var newUser = new Model.Subscriptions
+            {
+                Id = Subscriptions.Id,
+                SubscriptionDueDate = Subscriptions.SubscriptionDueDate,
+                SubscriptionDate = Subscriptions.SubscriptionDate,
+                Company = Subscriptions.Company,
+                Notification = Subscriptions.Notification,
+                SubscriptionMonthCost = Subscriptions.SubscriptionMonthCost,
+                SubscriptionName = Subscriptions.SubscriptionName,
+                UserId = Subscriptions.UserId
+            };
+            _context.Subscriptions.Add(newUser);
             await _context.SaveChangesAsync();
-
-            return Mapper.MapSub(newSubscriptions);
+            return MapSub(newUser);
         }
 
         public async Task<bool> SubscriptionsExsistsAsync(int id)
@@ -48,12 +56,11 @@ namespace ExpenseService.DataAccess.Repository
 
         public async Task<IEnumerable<Core.Model.Subscriptions>> GetSubscriptionssAsync(int? userId = null)
         {
-            IQueryable<Model.Subscriptions> query = _context.Subscriptions
-                .Include(u => u.User);
+            IQueryable<Model.Subscriptions> query = _context.Subscriptions;
 
             if (userId != null)
             {
-                query = query.Where(u => u.User.Id == userId);
+                query = query.Where(u => u.UserId == userId);
             }
 
             var subs = await query
@@ -94,6 +101,7 @@ namespace ExpenseService.DataAccess.Repository
                 Notification = subscriptions.Notification,
                 SubscriptionMonthCost = subscriptions.SubscriptionMonthCost,
                 SubscriptionName = subscriptions.SubscriptionName,
+                UserId = subscriptions.UserId
                 //User = MapUsers(subscriptions.User)
             };
         }

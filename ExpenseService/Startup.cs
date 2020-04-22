@@ -37,7 +37,19 @@ namespace ExpenseService
             services.AddScoped<ILoanRepository, LoanRepository>();
             services.AddScoped<IApplication, ApplicationRepository>();
             services.AddScoped<ISubscription, Subscription>();
-
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AllowLocalAndAppServiceAngular", builder =>
+                    builder.WithOrigins("https://revatureexpensetracker.azurewebsites.net/",
+                                        "http://localhost:4200", "https://localhost:4200")
+                        .AllowAnyMethod()
+                        .AllowAnyHeader());
+            });
+            services.AddControllers(options =>
+            {
+                options.ReturnHttpNotAcceptable = true;
+                options.SuppressAsyncSuffixInActionNames = false;
+            });
             services.AddDbContext<RevatureDatabaseContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("Project2String")));
         }
@@ -50,6 +62,9 @@ namespace ExpenseService
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseCors("AllowLocalAndAppServiceAngular");
+
+            app.UseAuthorization();
             app.UseHttpsRedirection();
 
             app.UseRouting();

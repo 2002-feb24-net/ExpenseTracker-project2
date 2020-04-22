@@ -165,7 +165,8 @@ namespace ExpenseService.DataAccess
                 Notification = subscriptions.Notification,
                 SubscriptionMonthCost = subscriptions.SubscriptionMonthCost,
                 SubscriptionName = subscriptions.SubscriptionName,
-                User = MapUsers(subscriptions.User)
+                UserId = subscriptions.UserId
+                //User = MapUsers(subscriptions.User)
             };
         }
 
@@ -180,7 +181,8 @@ namespace ExpenseService.DataAccess
                 Notification = subscriptions.Notification,
                 SubscriptionMonthCost = subscriptions.SubscriptionMonthCost,
                 SubscriptionName = subscriptions.SubscriptionName,
-                User = MapUsers(subscriptions.User)
+                UserId = subscriptions.UserId
+                //User = MapUsers(subscriptions.User)
             };
         }
     }

@@ -47,7 +47,7 @@ namespace ExpenseService
             services.AddCors(options =>
             {
                 options.AddPolicy("AllowLocalAndAppServiceAngular", builder =>
-                    builder.WithOrigins("https://revatureexpensetracker-client.azurewebsites.net/", 
+                    builder.WithOrigins("http://revatureexpensetracker-client.azurewebsites.net/",
                                         "http://localhost:4200")
                         .AllowAnyMethod()
                         .AllowAnyHeader());
@@ -72,9 +72,11 @@ namespace ExpenseService
             }
 
             app.UseAuthorization();
+
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
             app.UseCors("AllowLocalAndAppServiceAngular");
 
             app.UseAuthorization();

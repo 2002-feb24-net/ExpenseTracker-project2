@@ -45,7 +45,6 @@ namespace ExpenseService.DataAccess.Repository
 
             return MapBills(bill);
         }
-
         public async Task<IEnumerable<Core.Model.CoreBills>> GetBillsAsync(int? userId = null)
         {
             IQueryable<Model.Bills> query = _context.Bills

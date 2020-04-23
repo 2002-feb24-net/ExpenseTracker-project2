@@ -1,9 +1,10 @@
-﻿using System;
+﻿using ExpenseService.Core.Model;
+using System;
 using System.Collections.Generic;
 
 namespace ExpenseService.DataAccess.Model
 {
-    public partial class Users
+    public partial class Users 
     {
         public Users()
         {

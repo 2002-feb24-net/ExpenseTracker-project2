@@ -75,9 +75,19 @@ namespace ExpenseService.DataAccess.Repository
             return await _context.Users.AnyAsync(a => a.Id == id);
         }
 
-        public EntityState Changed(Core.Model.CoreUsers users)
+        public EntityState Changed(Core.Model.CoreUsers user)
         {
-            return _context.Entry(users).State = EntityState.Modified;
+            var newUser = new Model.Users
+            {
+                Id = user.Id,
+                Name = user.Name,
+                Address = user.Address,
+                Password = user.Password,
+                PhoneNumber = user.PhoneNumber,
+                Email = user.Email,
+                Membership = user.Membership
+            };
+            return _context.Entry(newUser).State = EntityState.Modified;
         }
 
 

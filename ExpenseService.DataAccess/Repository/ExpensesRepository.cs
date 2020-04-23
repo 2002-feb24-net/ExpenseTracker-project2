@@ -1,12 +1,8 @@
 ﻿using ExpenseService.Core.Interrfaces;
-using ExpenseService.Core.Model;
 using ExpenseService.DataAccess.Model;
-using ExpenseService.DataAccess;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace ExpenseService.DataAccess.Repository

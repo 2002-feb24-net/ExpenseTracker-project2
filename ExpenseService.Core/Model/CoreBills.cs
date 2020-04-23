@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
 namespace ExpenseService.Core.Model
 {
     public class CoreBills

@@ -56,7 +56,7 @@ namespace ExpenseService.DataAccess.Repository
 
         public async Task<IEnumerable<Core.Model.CoreSubscriptions>> GetSubscriptionssAsync(int? userId = null)
         {
-            IQueryable<Model.Subscriptions> query = _context.Subscriptions;
+            IQueryable<Model.Subscriptions> query = _context.Subscriptions.Include(u => u.User);
 
             if (userId != null)
             {

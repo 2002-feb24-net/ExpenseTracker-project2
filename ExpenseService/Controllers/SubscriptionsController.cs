@@ -65,6 +65,30 @@ namespace ExpenseServiceAPI.Controllers
 
             return Ok(resource);
         }
+        // GET: api/Subscriptions/userid=5
+        [HttpGet("userid={id}")]
+        [ProducesResponseType(typeof(ApiModel.ApiSub), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+
+        public async Task<ActionResult> GetSubscriptionsAsync(int id)
+        {
+            var Subscriptions = await _repo.GetSubscriptionssAsync(id);
+
+            var resource = Subscriptions.Select(b => new ApiModel.ApiSub
+            {
+                Id = b.Id,
+                SubscriptionDate = b.SubscriptionDate,
+                SubscriptionDueDate = b.SubscriptionDueDate,
+                Company = b.Company,
+                Notification = b.Notification,
+                SubscriptionMonthCost = b.SubscriptionMonthCost,
+                SubscriptionName = b.SubscriptionName,
+                UserId = b.UserId,
+                //User = ApiMapper.MapUserApi(b.User)
+            });
+
+            return Ok(resource);
+        }
 
         // PUT: api/Subscriptions/5
         [HttpPut("{id}")]

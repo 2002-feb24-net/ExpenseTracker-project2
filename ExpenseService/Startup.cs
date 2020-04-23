@@ -48,7 +48,7 @@ namespace ExpenseService
             {
                 options.AddPolicy("AllowLocalAndAppServiceAngular", builder =>
                     builder.WithOrigins("https://revatureexpensetracker-client.azurewebsites.net", "http://revatureexpensetracker-client.azurewebsites.net",
-                                        "http://localhost:4200")
+                                        "http://localhost:4200", "https://localhost:44395")
                         .AllowAnyMethod()
                         .AllowAnyHeader());
             });

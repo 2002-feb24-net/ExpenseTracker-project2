@@ -71,6 +71,27 @@ namespace ExpenseServiceAPI.Controllers
             return Ok(resource);
         }
 
+        // GET: api/Users/5
+        [HttpGet("{id}/{phoneNumber}")]
+        public async Task<ActionResult> GetUsers(int id, string phoneNumber)
+        {
+            var users = await _repo.GetUserAsy(id,phoneNumber);
+
+            if (users == null)
+            {
+                return NotFound();
+            }
+            else if (id == users.Id && phoneNumber == users.PhoneNumber)
+            {
+                return Ok(users);
+            }
+            else
+            {
+
+                return NotFound();
+            }
+        }
+
         // PUT: api/Users/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.

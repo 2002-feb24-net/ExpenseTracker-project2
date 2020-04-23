@@ -44,6 +44,17 @@ namespace ExpenseService.DataAccess.Repository
 
             return MapUser(users);
         }
+        public async Task<Core.Model.CoreUsers> GetUserAsy(int id, string phoneNumber)
+        {
+            Model.Users users = await _context.Users.FirstAsync(u => u.Id == id);
+
+          
+            
+                return MapUser(users);
+          
+          
+        }
+    
 
         public async Task<IEnumerable<Core.Model.CoreUsers>> GetUsersAsync()
         {

@@ -16,6 +16,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using Stripe;
 
 [assembly: ApiController]
 namespace ExpenseService
@@ -39,7 +40,7 @@ namespace ExpenseService
             services.AddScoped<IBudgetRepository, BudgetRepository>();
             services.AddScoped<ILoanRepository, LoanRepository>();
             services.AddScoped<IApplication, ApplicationRepository>();
-            services.AddScoped<ISubscription, Subscription>();
+            services.AddScoped<ISubscription, DataAccess.Repository.Subscription>();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Client API", Version = "v1" });

@@ -75,6 +75,33 @@ namespace ExpenseServiceAPI.Controllers
             return Ok(resource);
         }
 
+
+        [HttpGet("userid={userid}")]
+        [ProducesResponseType(typeof(ApiModel.ApiBills), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+
+        public async Task<ActionResult> GetUserBills(int userid)
+        {
+            var ListOfBills = await _repo.GetBillsAsync(userid);
+            var resource = ListOfBills.Select(b => new ApiModel.ApiBills
+            {
+                Id = b.Id,
+                BillDate = b.BillDate,
+                Cost = b.Cost,
+                Location = b.Location,
+                PurchaseName = b.PurchaseName,
+                Quantity = b.Quantity,
+                UserId = b.UserId
+                //CurrentUser = ApiMapper.MapUserApi(bills.CurrentUser)
+            });
+
+            if (resource == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(resource);
+        }
         // PUT: api/Bills/5
         [HttpPut("{id}")]
         public async Task<IActionResult> PutBills(int id, ExpenseService.DataAccess.Model.Bills bills)

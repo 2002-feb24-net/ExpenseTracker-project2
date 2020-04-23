@@ -96,15 +96,23 @@ namespace ExpenseServiceAPI.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutUsers(int id, Users users)
+        public async Task<IActionResult> PutUsers(int id, ExpenseService.Core.Model.CoreUsers user)
         {
-            if (id != users.Id)
+            if (id != user.Id)
             {
                 return BadRequest();
             }
-
-            var newUser = Mapper.MapUsers(users);
-            _repo.Changed(newUser);
+            var resource = new ExpenseService.Core.Model.CoreUsers
+            {
+                Id = user.Id,
+                Name = user.Name,
+                Email = user.Email,
+                Password = user.Password,
+                Address = user.Address,
+                PhoneNumber = user.PhoneNumber,
+                Membership = user.Membership
+            };
+            _repo.Changed(resource);
 
             try
             {

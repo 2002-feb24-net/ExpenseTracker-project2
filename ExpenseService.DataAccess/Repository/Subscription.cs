@@ -23,7 +23,6 @@ namespace ExpenseService.DataAccess.Repository
         {
             var newUser = new Model.Subscriptions
             {
-                Id = Subscriptions.Id,
                 SubscriptionDueDate = Subscriptions.SubscriptionDueDate,
                 SubscriptionDate = Subscriptions.SubscriptionDate,
                 Company = Subscriptions.Company,

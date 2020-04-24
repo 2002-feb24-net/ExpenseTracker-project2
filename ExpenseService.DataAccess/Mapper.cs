@@ -52,6 +52,20 @@ namespace ExpenseService.DataAccess
             };
         }
 
+        public static object MapUser(CoreUsers users)
+        {
+            return new Core.Model.CoreUsers
+            {
+                Address = users.Address,
+                Email = users.Email,
+                Id = users.Id,
+                Membership = users.Membership,
+                Name = users.Name,
+                Password = users.Password,
+                PhoneNumber = users.PhoneNumber
+            };
+        }
+
         public static Model.Bills MapBills(Core.Model.CoreBills bills)
         {
             return new Model.Bills

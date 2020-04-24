@@ -31,7 +31,6 @@ namespace ExpenseServiceAPI.Controllers
         public async Task<ActionResult> GetBills()
         {
             var ListOfBills = await _repo.GetBillsAsync();
-
             var resource = ListOfBills.Select(b => new ApiModel.ApiBills
             {
                 Id = b.Id,

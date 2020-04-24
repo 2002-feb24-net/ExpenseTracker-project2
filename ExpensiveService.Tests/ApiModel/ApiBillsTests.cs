@@ -26,7 +26,14 @@ namespace ExpensiveService.Tests.ApiModel
         [Fact]
         public void TestMethod1()
         {
-            var apiBills = this.CreateApiBills();
+            var apiBills = new ApiBills();
+            apiBills.Id = 1;
+            apiBills.UserId = 2;
+            apiBills.PurchaseName = "Mock";
+            apiBills.Quantity = 2;
+            apiBills.Cost = 3;
+            apiBills.BillDate = new DateTime();
+            apiBills.Location = "Mock Location";
             Assert.True(true);
         }
     }

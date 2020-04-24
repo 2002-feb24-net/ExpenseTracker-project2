@@ -48,10 +48,24 @@ namespace ExpensiveService.Tests
                 BillDate = new DateTime(),
                 Location = "Mock Location",
             };
+            var bills = new Bills
+            {
+                Id = 1,
+                UserId = 2,
+                PurchaseName = "Mock",
+                Quantity = 2,
+                Cost = 3,
+                BillDate = new DateTime(),
+                Location = "Mock Location",
+            };
             var a = Mapper.MapBills(listOfBills);
             Mock<IBillsRepository> mockBillRepository = new Mock<IBillsRepository>();
             mockBillRepository.Setup(x => x.GetBillsAsync(null)).Verifiable();
             var billController = new BillsController(mockBillRepository.Object);
+            var bill = billController.GetBills();
+            var bill2 = billController.GetUserBills(1);
+            var bill3 = billController.PostBills(bills);
+            var bill4 = billController.PutBills(1,bills);
             billController.Should().NotBeNull();
         }
     }

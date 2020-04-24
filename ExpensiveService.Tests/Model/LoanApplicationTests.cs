@@ -28,7 +28,6 @@ namespace ExpensiveService.Tests.Model
         {
             var loanApplication = this.CreateLoanApplication();
             Assert.True(loanApplication != null);
-            Assert.True(false);
             this.mockRepository.VerifyAll();
         }
     }

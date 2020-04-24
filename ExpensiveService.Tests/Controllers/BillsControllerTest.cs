@@ -1,7 +1,6 @@
 using System;
 using ExpenseService.Core.Interrfaces;
 using ExpenseService.DataAccess.Repository;
-using ExpenseServiceAPI.Controllers;
 using Moq;
 using Xunit;
 using FluentAssertions;
@@ -9,6 +8,7 @@ using System.Collections.Generic;
 using ExpenseService.DataAccess.Model;
 using ExpenseService.DataAccess;
 using ExpenseService.Core.Model;
+using ExpenseServiceAPI.Controllers;
 
 namespace ExpensiveService.Tests
 {
@@ -35,7 +35,7 @@ namespace ExpensiveService.Tests
             billController.Should().NotBeNull();
         }
         [Fact]
-        public void GetBills()
+        public void TestBills()
         {
             var listOfBills = new CoreBills();
             listOfBills = new CoreBills

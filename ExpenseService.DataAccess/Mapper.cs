@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using ExpenseService.Core.Model;
-using ExpenseService.DataAccess.Model;
+﻿
 
 namespace ExpenseService.DataAccess
 {

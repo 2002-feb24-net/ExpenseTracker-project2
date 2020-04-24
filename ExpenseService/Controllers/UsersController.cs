@@ -5,9 +5,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using ExpenseService.DataAccess.Model;
 using ExpenseService.Core.Interrfaces;
-using ExpenseService.DataAccess;
+
 
 namespace ExpenseServiceAPI.Controllers
 {
@@ -69,6 +68,27 @@ namespace ExpenseServiceAPI.Controllers
             }
             
             return Ok(resource);
+        }
+
+        // GET: api/Users/5
+        [HttpGet("{id}/{phoneNumber}")]
+        public async Task<ActionResult> GetUsers(int id, string phoneNumber)
+        {
+            var users = await _repo.GetUserAsy(id,phoneNumber);
+
+            if (users == null)
+            {
+                return NotFound();
+            }
+            else if (id == users.Id && phoneNumber == users.PhoneNumber)
+            {
+                return Ok(users);
+            }
+            else
+            {
+
+                return NotFound();
+            }
         }
 
         // PUT: api/Users/5

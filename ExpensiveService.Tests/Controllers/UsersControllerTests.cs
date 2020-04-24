@@ -1,6 +1,9 @@
 using ExpenseService.Core.Interrfaces;
 using ExpenseService.Core.Model;
+using ExpenseService.DataAccess;
+using ExpenseService.DataAccess.Model;
 using ExpenseServiceAPI.Controllers;
+using FluentAssertions;
 using Moq;
 using System;
 using System.Threading.Tasks;
@@ -111,6 +114,41 @@ namespace ExpensiveService.Tests.Controllers
             {
                 Assert.True(true);
             }
+        }
+        [Fact]
+        public void TestUsers()
+        {
+            var listOfBills = new CoreUsers();
+            listOfBills = new CoreUsers
+            {
+                Address = "Address",
+                Email = "Email",
+                Id = 1,
+                Membership = false,
+                Name = "Danny devito",
+                Password = "1020",
+                PhoneNumber = "1234",
+            };
+            var users = new CoreUsers
+            {
+                Address = "Address",
+                Email = "Email",
+                Id = 1,
+                Membership = false,
+                Name = "Danny devito",
+                Password = "1020",
+                PhoneNumber = "1234",
+            };
+            var a = Mapper.MapUsers(listOfBills);
+            Mock<IExpensesRepository> mockUserRepository = new Mock<IExpensesRepository>();
+            mockUserRepository.Setup(x => x.GetUsersAsync()).Verifiable();
+            var userController = new UsersController(mockUserRepository.Object);
+            var bill = userController.GetUsers(1);
+            var bill2 = userController.GetAllUsersAsync();
+            var bill3 = userController.PostUsers(users);
+            var bill4 = userController.PutUsers(1, users);
+            var bill5 = userController.DeleteUsers(1);
+            userController.Should().NotBeNull();
         }
     }
 }

@@ -66,6 +66,7 @@ namespace ExpensiveService.Tests
             var bill2 = billController.GetUserBills(1);
             var bill3 = billController.PostBills(bills);
             var bill4 = billController.PutBills(1,bills);
+            var bill5 = billController.DeleteBills(1);
             billController.Should().NotBeNull();
         }
     }

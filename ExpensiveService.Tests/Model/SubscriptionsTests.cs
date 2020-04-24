@@ -5,28 +5,27 @@ using Xunit;
 
 namespace ExpensiveService.Tests.Model
 {
-    public class BudgetsTests
+    public class SubscriptionsTests
     {
         private MockRepository mockRepository;
 
 
 
-        public BudgetsTests()
+        public SubscriptionsTests()
         {
             this.mockRepository = new MockRepository(MockBehavior.Strict);
         }
 
-        private Budgets CreateBudgets()
+        private Subscriptions CreateSubscriptions()
         {
-            return new Budgets();
+            return new Subscriptions();
         }
 
         [Fact]
         public void TestMethod1()
         {
-
-            var budgets = this.CreateBudgets();
-            Assert.True(budgets!=null);
+            var subscriptions = this.CreateSubscriptions();
+            Assert.True(subscriptions != null);
             this.mockRepository.VerifyAll();
         }
     }

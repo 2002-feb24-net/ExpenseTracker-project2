@@ -5,28 +5,29 @@ using Xunit;
 
 namespace ExpensiveService.Tests.Model
 {
-    public class BudgetsTests
+    public class RevatureDatabaseContextTests
     {
         private MockRepository mockRepository;
 
 
 
-        public BudgetsTests()
+        public RevatureDatabaseContextTests()
         {
             this.mockRepository = new MockRepository(MockBehavior.Strict);
+
+
         }
 
-        private Budgets CreateBudgets()
+        private RevatureDatabaseContext CreateRevatureDatabaseContext()
         {
-            return new Budgets();
+            return new RevatureDatabaseContext();
         }
 
         [Fact]
         public void TestMethod1()
         {
-
-            var budgets = this.CreateBudgets();
-            Assert.True(budgets!=null);
+            var revatureDatabaseContext = this.CreateRevatureDatabaseContext();
+            Assert.True(revatureDatabaseContext != null);
             this.mockRepository.VerifyAll();
         }
     }
